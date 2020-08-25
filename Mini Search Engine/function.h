@@ -19,6 +19,13 @@
 using namespace std;
 using namespace std::filesystem;
 
-
+// NODE
+class Node
+{
+public:
+	bool isLeaf;
+	vector<int> myv;
+	map<char, Node*> mapkey;
+};
 
 #endif
