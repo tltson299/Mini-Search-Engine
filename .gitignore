@@ -33,3 +33,5 @@
 .vs
 Debug
 *.db
+*.db
+.vs/Mini Search Engine/v16/.suo

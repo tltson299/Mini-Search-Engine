@@ -28,4 +28,6 @@ public:
 	map<char, Node*> mapkey;
 };
 
+// TREE
+
 #endif
