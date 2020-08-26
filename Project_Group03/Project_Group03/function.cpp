@@ -65,4 +65,20 @@ void lowerString(string& str)
 		if (str[i] >= 'A' && str[i] <= 'Z')
 			str[i] += ('a' - 'A');
 }
-
+// merge 2 vector
+bool isDuplicate(vector<int> a, int b)
+{
+	for (int i = 0; i < a.size(); ++i)
+		if (b == a.at(i))
+			return true;
+	return false;
+}
+vector<int> mergeVector(vector<int> a, vector<int> b)
+{
+	for (int i = 0; i < b.size(); ++i)
+	{
+		if (!isDuplicate(a, b.at(i)))
+			a.push_back(b.at(i));
+	}
+	return a;
+}
