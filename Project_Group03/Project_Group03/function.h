@@ -41,4 +41,7 @@ public:
 // OTHER FUNCTIONS
 void lowerChar(char*& str);
 void lowerString(string& str);
+bool isDuplicate(vector<int> a, int b);
+vector<int> mergeVector(vector<int> a, vector<int> b);
+
 #endif  // !_FUNCTION_H_
