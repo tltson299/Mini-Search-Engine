@@ -11,5 +11,7 @@ int main()
 	char* str2 = new char[50];	// store words temporarily
 	char* input = new char[50];
 
+
+
 	return 0;
 }
