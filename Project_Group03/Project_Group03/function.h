@@ -39,6 +39,7 @@ public:
 	Node* getFile(Node* root, char* str);
 	void getFileName(Node*& root, char* str, vector<string>& vt);
 	void deleteTrie(Node*& root);
+	void commonVector(vector<int> inputvt, vector<int>& common);
 };
 
 // OTHER FUNCTIONS

@@ -86,6 +86,25 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 	}
 	fo.close();
 }
+void Trie::commonVector(vector<int> inputvt, vector<int>& common)
+{
+	int i = 0, j = 0;
+	vector<int> vec;
+	while (i < inputvt.size() && j < common.size())
+	{
+		if (inputvt.at(i) < common.at(j))
+			i++;
+		else if (common.at(j) < inputvt.at(i))
+			j++;
+		else /* if arr1[i] == arr2[j] */
+		{
+			vec.push_back(common.at(j));
+			i++;
+			j++;
+		}
+	}
+	common = vec;
+}
 
 void lowerChar(char*& str)
 {
