@@ -47,5 +47,6 @@ void lowerChar(char*& str);
 void lowerString(string& str);
 bool isDuplicate(vector<int> a, int b);
 vector<int> mergeVector(vector<int> a, vector<int> b);
+void fontSize(CONSOLE_FONT_INFOEX& cfi, int x, int y);
 
 #endif  // !_FUNCTION_H_

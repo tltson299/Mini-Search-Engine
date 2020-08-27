@@ -141,3 +141,14 @@ vector<int> mergeVector(vector<int> a, vector<int> b)
 	return a;
 }
 
+void fontSize(CONSOLE_FONT_INFOEX& cfi, int x, int y)
+{
+	cfi.cbSize = sizeof(cfi);
+	cfi.nFont = 0;
+	cfi.dwFontSize.X = x; // width of each character in the font
+	cfi.dwFontSize.Y = y; // height of each character in the font
+	cfi.FontFamily = FF_DONTCARE;
+	cfi.FontWeight = FW_NORMAL;
+	std::wcscpy(cfi.FaceName, L"Consolas"); // choose font
+	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+}
