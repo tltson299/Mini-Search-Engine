@@ -86,6 +86,24 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 	}
 	fo.close();
 }
+
+void Trie::removeStopWord(vector<string>& store, Node* root2)
+{
+	char* str3 = new char[50];
+	for (int i = 0; i < store.size(); ++i)
+	{
+		str3 = new char[store.at(i).size() + 1];
+		strcpy(str3, store.at(i).c_str());
+		Node* key1 = getFile(root2, str3);
+		if (key1 != NULL && key1->isLeaf != 0)
+		{
+			store.erase(store.begin() + i);
+			--i;
+		}
+		delete[] str3;
+	}
+}
+
 void Trie::commonVector(vector<int> inputvt, vector<int>& common)
 {
 	int i = 0, j = 0;
