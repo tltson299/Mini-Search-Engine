@@ -38,6 +38,7 @@ public:
 	void readWord(string ptr, Node*& root, char* str, int i);
 	Node* getFile(Node* root, char* str);
 	void getFileName(Node*& root, char* str, vector<string>& vt);
+	void removeStopWord(vector<string>& store, Node* root2);
 	void deleteTrie(Node*& root);
 	void commonVector(vector<int> inputvt, vector<int>& common);
 };
