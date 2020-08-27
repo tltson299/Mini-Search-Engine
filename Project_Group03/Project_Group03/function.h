@@ -37,6 +37,7 @@ public:
 	void insert(Node*& root, char* str, int i);
 	void readWord(string ptr, Node*& root, char* str, int i);
 	Node* getFile(Node* root, char* str);
+	void getFileName(Node*& root, char* str, vector<string>& vt);
 	void deleteTrie(Node*& root);
 };
 

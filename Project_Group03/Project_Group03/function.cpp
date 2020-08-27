@@ -70,6 +70,23 @@ Node* Trie::getFile(Node* root, char* str)
 	return cur;
 }
 
+void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
+{
+	fstream fo;
+	int i = 0;
+	string titleName;
+	fo.open("file_name.txt", ios::out);
+	for (auto& p : directory_iterator("data")) // data files put in folder "data"
+	{
+		fo << p.path().filename() << "\n"; // p.path(): file name
+		titleName = p.path().filename().string();
+		vt.push_back(titleName);
+		readWord("data/" + titleName, root, str, i);
+		i++;
+	}
+	fo.close();
+}
+
 void lowerChar(char*& str)
 {
 	int n = strlen(str);
