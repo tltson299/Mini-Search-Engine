@@ -1,11 +1,11 @@
 #include "function.h"
+///functions to build and delete trie
 Node* Trie::createNode()
 {
 	Node* node = new Node;
 	node->isLeaf = false;
 	return node;
 }
-
 void Trie::insert(Node*& root, char* str, int i)
 {
 	if (root == NULL)
@@ -27,7 +27,6 @@ void Trie::insert(Node*& root, char* str, int i)
 		cur->myv.push_back(i);
 	cur->isLeaf = true;
 }
-
 void Trie::readWord(string ptr, Node*& root, char* str, int i)
 {
 	fstream file;
@@ -42,7 +41,6 @@ void Trie::readWord(string ptr, Node*& root, char* str, int i)
 	}
 	file.close();
 }
-
 void Trie::deleteTrie(Node*& root)
 {
 	map<char, Node*>::iterator it;
@@ -52,24 +50,6 @@ void Trie::deleteTrie(Node*& root)
 		deleteTrie(it->second);
 	delete root;
 }
-
-// similar to search function but this function also get the leaf node
-Node* Trie::getFile(Node* root, char* str)
-{
-	lowerChar(str);
-	if (root == NULL)
-		return NULL;
-	Node* cur = root;
-	while (*str)
-	{
-		cur = cur->mapkey[*str];
-		if (cur == NULL)
-			return NULL;
-		str++;
-	}
-	return cur;
-}
-
 void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 {
 	fstream fo;
@@ -86,7 +66,9 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 	}
 	fo.close();
 }
+///
 
+///main algorithm function
 void Trie::removeStopWord(vector<string>& store, Node* root2)
 {
 	char* str3 = new char[50];
@@ -103,7 +85,25 @@ void Trie::removeStopWord(vector<string>& store, Node* root2)
 		delete[] str3;
 	}
 }
+// similar to search function but this function also get the leaf node
+Node* Trie::getFile(Node* root, char* str)
+{
+	lowerChar(str);
+	if (root == NULL)
+		return NULL;
+	Node* cur = root;
+	while (*str)
+	{
+		cur = cur->mapkey[*str];
+		if (cur == NULL)
+			return NULL;
+		str++;
+	}
+	return cur;
+}
+///
 
+////Queries functions
 void Trie::commonVector(vector<int> inputvt, vector<int>& common)
 {
 	int i = 0, j = 0;
@@ -123,7 +123,68 @@ void Trie::commonVector(vector<int> inputvt, vector<int>& common)
 	}
 	common = vec;
 }
+///
 
+///output functions
+bool Trie::checkString(string input, string word)
+{
+	int count = 0;
+	lowerString(word);
+	for (int i = 0; i < input.size(); i++)
+		if (word.size() >= input.size() && input[i] == word[i])
+			count++;
+	if (word.size() >= count + 1)
+		if (word[count + 1] != '!' || word[count + 1] != '?' ||
+			word[count + 1] != '\'' || word[count + 1] != '.' || word[count + 1] != ',')
+			return false;
+	if (count == input.size())
+		return true;
+	else
+		return false;
+}
+//Output the sentence that contain key words
+void Trie::ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+	if (!found)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
+		cout << "***";
+		for (int i = 5; i < filename.length(); ++i)
+			cout << filename[i];
+		cout << ":";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+		cout << endl << endl;
+	}
+	for (int i = 0; i < mys.size(); i++)
+	{
+		if (!checkOnVector(highlight, mys.at(i)))
+			cout << mys.at(i) << " ";
+		else
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138); // highlight keywords
+			cout << mys.at(i);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11); // stop highlight
+			cout << " ";
+		}
+	}
+	cout << endl;
+}
+//check if key words are on the sentence
+bool Trie::checkOnVector(vector<string> input, string word)
+{
+	int count = 0;
+	for (int i = 0; i < input.size(); i++)
+		if (checkString(input.at(i), word))
+			count++;
+	if (count != 0)
+		return true;
+	else
+		return false;
+}
+///
+
+///others functions
 void lowerChar(char*& str)
 {
 	int n = strlen(str);
@@ -131,7 +192,6 @@ void lowerChar(char*& str)
 		if (str[i] >= 'A' && str[i] <= 'Z')
 			str[i] += ('a' - 'A');
 }
-
 void lowerString(string& str)
 {
 	int n = str.length();
@@ -139,7 +199,6 @@ void lowerString(string& str)
 		if (str[i] >= 'A' && str[i] <= 'Z')
 			str[i] += ('a' - 'A');
 }
-
 // merge 2 vector
 bool isDuplicate(vector<int> a, int b)
 {
@@ -148,7 +207,6 @@ bool isDuplicate(vector<int> a, int b)
 			return true;
 	return false;
 }
-
 vector<int> mergeVector(vector<int> a, vector<int> b)
 {
 	for (int i = 0; i < b.size(); ++i)
@@ -158,7 +216,6 @@ vector<int> mergeVector(vector<int> a, vector<int> b)
 	}
 	return a;
 }
-
 void fontSize(CONSOLE_FONT_INFOEX& cfi, int x, int y)
 {
 	cfi.cbSize = sizeof(cfi);
@@ -170,3 +227,4 @@ void fontSize(CONSOLE_FONT_INFOEX& cfi, int x, int y)
 	std::wcscpy(cfi.FaceName, L"Consolas"); // choose font
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 }
+///

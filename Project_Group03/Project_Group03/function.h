@@ -33,14 +33,21 @@ class Trie
 {
 public:
 	Node* root = nullptr;
+	// build and delete trie function
 	Node* createNode();
 	void insert(Node*& root, char* str, int i);
 	void readWord(string ptr, Node*& root, char* str, int i);
-	Node* getFile(Node* root, char* str);
 	void getFileName(Node*& root, char* str, vector<string>& vt);
-	void removeStopWord(vector<string>& store, Node* root2);
 	void deleteTrie(Node*& root);
+	//main algorithm function
+	Node* getFile(Node* root, char* str);
+	void removeStopWord(vector<string>& store, Node* root2);
+	//Queries functions
 	void commonVector(vector<int> inputvt, vector<int>& common);
+	//output functions
+	void ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight);
+	bool checkString(string input, string word);
+	bool checkOnVector(vector<string> input, string word);
 };
 
 // OTHER FUNCTIONS
