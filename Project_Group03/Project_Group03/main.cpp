@@ -17,12 +17,15 @@ int main()
 	char* str2 = new char[50];	// store words temporarily
 	char* input = new char[50]; // input from user
 	clock_t start = clock();	// time complexity
+	title(); // print title
 
 	// LOAD DATA & STOPWORDS
 	cout << "Loading..." << endl;
 	trie.getFileName(trie.root, str1, vt1);
 	stopword.readWord("stopwords.txt", stopword.root, str2, 0);
-	cout << "Loading time: " << (double)(clock() - start) / CLOCKS_PER_SEC; cout << endl << endl;
+	cout << "Loading time: " << (double)(clock() - start) / CLOCKS_PER_SEC << endl << endl;
+
+	// SEARCH
 
 	return 0;
 }

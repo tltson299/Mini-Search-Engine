@@ -1,11 +1,12 @@
 #include "function.h"
-///functions to build and delete trie
+
 Node* Trie::createNode()
 {
 	Node* node = new Node;
 	node->isLeaf = false;
 	return node;
 }
+
 void Trie::insert(Node*& root, char* str, int i)
 {
 	if (root == NULL)
@@ -20,13 +21,13 @@ void Trie::insert(Node*& root, char* str, int i)
 		cur = cur->mapkey[*str];
 		str++;
 	}
-	//if(!cur->myv.empty()) cout << cur->myv.back()<<" ";
 	if (cur->myv.empty())
 		cur->myv.push_back(i);
 	if ((!cur->myv.empty()) && i > cur->myv.back())
 		cur->myv.push_back(i);
 	cur->isLeaf = true;
 }
+
 void Trie::readWord(string ptr, Node*& root, char* str, int i)
 {
 	fstream file;
@@ -41,6 +42,7 @@ void Trie::readWord(string ptr, Node*& root, char* str, int i)
 	}
 	file.close();
 }
+
 void Trie::deleteTrie(Node*& root)
 {
 	map<char, Node*>::iterator it;
@@ -50,6 +52,7 @@ void Trie::deleteTrie(Node*& root)
 		deleteTrie(it->second);
 	delete root;
 }
+
 void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 {
 	fstream fo;
@@ -66,9 +69,8 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 	}
 	fo.close();
 }
-///
 
-///main algorithm function
+// remove stopwords
 void Trie::removeStopWord(vector<string>& store, Node* root2)
 {
 	char* str3 = new char[50];
@@ -85,6 +87,7 @@ void Trie::removeStopWord(vector<string>& store, Node* root2)
 		delete[] str3;
 	}
 }
+
 // similar to search function but this function also get the leaf node
 Node* Trie::getFile(Node* root, char* str)
 {
@@ -101,9 +104,7 @@ Node* Trie::getFile(Node* root, char* str)
 	}
 	return cur;
 }
-///
 
-////Queries functions
 void Trie::commonVector(vector<int> inputvt, vector<int>& common)
 {
 	int i = 0, j = 0;
@@ -123,9 +124,7 @@ void Trie::commonVector(vector<int> inputvt, vector<int>& common)
 	}
 	common = vec;
 }
-///
 
-///output functions
 bool Trie::checkString(string input, string word)
 {
 	int count = 0;
@@ -142,7 +141,8 @@ bool Trie::checkString(string input, string word)
 	else
 		return false;
 }
-//Output the sentence that contain key words
+
+// output the sentence that contain keywords
 void Trie::ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
@@ -170,7 +170,8 @@ void Trie::ouputVector(vector<string> mys, string filename, bool& found, vector<
 	}
 	cout << endl;
 }
-//check if key words are on the sentence
+
+// check if keywords are on the sentence
 bool Trie::checkOnVector(vector<string> input, string word)
 {
 	int count = 0;
@@ -182,9 +183,24 @@ bool Trie::checkOnVector(vector<string> input, string word)
 	else
 		return false;
 }
-///
 
-///others functions
+// OTHER FUNCTIONS
+void title()
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+	cout << "     oooooo  ooooooo       oo       oooooooo    oooooooo  oo     oo        ooooooo  ooo     oo   oooooooo    oo  ooo     oo  ooooooo" << endl
+		<< "    oo       oo	          oooo      oo    ooo  oo         oo     oo        oo       oooo    oo  oo           oo  oooo    oo  oo  " << endl
+		<< "    oo       oo          oo  oo     oo   ooo   oo         oo     oo        oo       oo oo   oo  oo           oo  oo oo   oo  oo     " << endl
+		<< "      ooo    ooooooo    oooooooo    oooooo     oo         ooooooooo        ooooooo  oo  oo  oo  oo     oooo  oo  oo  oo  oo  ooooooo" << endl
+		<< "         oo  oo        oo      oo   oo ooo     oo         oo     oo        oo       oo   oo oo  oo      oo   oo  oo   oo oo  oo     " << endl
+		<< "         oo  oo       oo        oo  oo   ooo   oo         oo     oo        oo       oo    oooo  oo      oo   oo  oo    oooo  oo     " << endl
+		<< "    oooooo   ooooooo oo          oo oo     ooo  oooooooo  oo     oo        ooooooo  oo     ooo    ooooooo    oo  oo     ooo  ooooooo" << endl
+		<< endl
+		<< "\t\t\t\t\t\t\tGROUP 3 - 19CTT2 - HCMUS"
+		<< endl << endl;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+}
+
 void lowerChar(char*& str)
 {
 	int n = strlen(str);
@@ -192,6 +208,7 @@ void lowerChar(char*& str)
 		if (str[i] >= 'A' && str[i] <= 'Z')
 			str[i] += ('a' - 'A');
 }
+
 void lowerString(string& str)
 {
 	int n = str.length();
@@ -199,6 +216,7 @@ void lowerString(string& str)
 		if (str[i] >= 'A' && str[i] <= 'Z')
 			str[i] += ('a' - 'A');
 }
+
 // merge 2 vector
 bool isDuplicate(vector<int> a, int b)
 {
@@ -207,6 +225,7 @@ bool isDuplicate(vector<int> a, int b)
 			return true;
 	return false;
 }
+
 vector<int> mergeVector(vector<int> a, vector<int> b)
 {
 	for (int i = 0; i < b.size(); ++i)
@@ -216,6 +235,7 @@ vector<int> mergeVector(vector<int> a, vector<int> b)
 	}
 	return a;
 }
+
 void fontSize(CONSOLE_FONT_INFOEX& cfi, int x, int y)
 {
 	cfi.cbSize = sizeof(cfi);
@@ -227,4 +247,3 @@ void fontSize(CONSOLE_FONT_INFOEX& cfi, int x, int y)
 	std::wcscpy(cfi.FaceName, L"Consolas"); // choose font
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
 }
-///

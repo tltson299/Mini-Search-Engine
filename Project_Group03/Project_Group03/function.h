@@ -39,18 +39,19 @@ public:
 	void readWord(string ptr, Node*& root, char* str, int i);
 	void getFileName(Node*& root, char* str, vector<string>& vt);
 	void deleteTrie(Node*& root);
-	//main algorithm function
+	// main algorithm function
 	Node* getFile(Node* root, char* str);
 	void removeStopWord(vector<string>& store, Node* root2);
-	//Queries functions
+	// queries functions
 	void commonVector(vector<int> inputvt, vector<int>& common);
-	//output functions
+	// output functions
 	void ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight);
 	bool checkString(string input, string word);
 	bool checkOnVector(vector<string> input, string word);
 };
 
 // OTHER FUNCTIONS
+void title();
 void lowerChar(char*& str);
 void lowerString(string& str);
 bool isDuplicate(vector<int> a, int b);
