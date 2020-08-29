@@ -44,7 +44,11 @@ public:
 	void removeStopWord(vector<string>& store, Node* root2);
 	// queries functions
 	void commonVector(vector<int> inputvt, vector<int>& common);
+	void getQueryAnd(Node* root, vector<string>& store, char*& str2, vector<int>& common, int& countN, int qt);
+	void getQueryOr(Node* root2, vector<string>& store, char*& str2, vector<int>& common, int& countN);
 	// output functions
+	void outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle);
+	void ouputVectorEx(vector<string> mys, string filename, bool& found, vector<string> highlight, int pos);
 	void ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight);
 	bool checkString(string input, string word);
 	bool checkOnVector(vector<string> input, string word);

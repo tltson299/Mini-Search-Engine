@@ -170,7 +170,36 @@ void Trie::ouputVector(vector<string> mys, string filename, bool& found, vector<
 	}
 	cout << endl;
 }
-
+void Trie::ouputVectorEx(vector<string> mys, string filename, bool& found, vector<string> highlight, int pos)
+{
+	int dis;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+	if (!found)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
+		cout << "***";
+		for (int i = 5; i < filename.length(); ++i)
+			cout << filename[i];
+		cout << ":";
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+		cout << endl << endl;
+	}
+	for (int i = 0; i < mys.size(); i++)
+	{
+		if (!checkOnVector(highlight, mys.at(i)))
+			cout << mys.at(i) << " ";
+		else if (checkOnVector(highlight, mys.at(i)) && i >= pos - highlight.size() - 1 && i <= pos)
+		{
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138); // highlight keywords
+			cout << mys.at(i);
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11); // stop highlight
+			cout << " ";
+		}
+		else
+			cout << mys.at(i) << " ";
+	}
+	cout << endl;
+}
 // check if keywords are on the sentence
 bool Trie::checkOnVector(vector<string> input, string word)
 {
@@ -183,6 +212,132 @@ bool Trie::checkOnVector(vector<string> input, string word)
 	else
 		return false;
 }
+
+void Trie::outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle)
+{
+	fstream file;
+	string word;
+	vector<string> mys;
+	bool found = false;
+	file.open(fileName);
+	while (file >> word) //take word and print
+	{
+		for (int i = 0; i < word.size() + 1; i++) {
+			if (word[i] == '—') word[i] == '-';
+			if (word[i] == '“') word[i] = '"';
+			if (word[i] == '”') word[i] = '"';
+			if (word[i] == '’') word[i] = '\'';
+			if (word[i] == '‘') word[i] = '\'';
+		}
+		mys.push_back(word);
+		if (word[word.size() - 1] == '.' || (word.size() > 1 && word[word.size() - 2] == '.'))
+		{
+			int check = 0, remark;
+			string oldone = " ";
+			for (int i = 0; i < mys.size(); i++)
+			{
+				if (mys.at(i) != oldone && checkOnVector(input, mys.at(i)))
+				{
+					oldone = mys.at(i);
+					check++;
+				}
+			}
+			if (check != 0)
+			{
+				if (exact == true && check >= input.size())
+				{
+					int examine = 0;
+					for (int i = 0; i < mys.size(); i++)
+					{
+						int k = i; int count = 0;
+						for (int j = 0; j < input.size(); j++)
+						{
+							if (k < mys.size())
+							{
+								string cmpr = mys.at(k); lowerString(cmpr);
+								if (cmpr == input.at(j)) {
+									count++;
+									if (count == input.size())
+										remark = k;
+								}
+								k++;
+							}
+						}
+						if (count == input.size()) examine++;
+					}
+					if (examine != 0)
+					{
+						ouputVectorEx(mys, fileName, found, input, remark);
+						found = true;
+					}
+				}
+				else if (exact == false)
+				{
+					ouputVector(mys, fileName, found, input);
+					found = true;
+				}
+			}
+			mys.clear();
+			if (intitle)
+				break;
+		}
+	}
+	if (found)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		cout << endl << "======================================"
+			<< "==============================================="
+			<< "==============================================="
+			<< endl << endl;
+		++count;
+	}
+	file.close();
+}
+
+void Trie::getQueryAnd(Node* root2, vector<string>& store, char*& str2, vector<int>& common, int& countN, int qt)
+{
+	if (qt != 6)
+		removeStopWord(store, root2);
+	for (int i = 0; i < store.size(); i++)
+	{
+		if (store.empty())
+			break;
+		str2 = new char[store.at(i).size() + 1];
+		for (int j = 0; j < store.at(i).size() + 1; j++)
+			str2[j] = store.at(i)[j];
+		Node* key = getFile(root, str2);
+		if (key != NULL && key->isLeaf != 0)
+		{
+			if (common.empty())
+				common = key->myv;
+			else
+				commonVector(key->myv, common);
+			countN++;
+		}
+	}
+}
+
+void Trie::getQueryOr(Node* root2, vector<string>& store, char*& str2, vector<int>& common, int& countN)
+{
+	removeStopWord(store, root2);
+	for (int i = 0; i < store.size(); i++)
+	{
+		if (store.empty())
+			break;
+		str2 = new char[store.at(i).size() + 1];
+		for (int j = 0; j < store.at(i).size() + 1; j++)
+			str2[j] = store.at(i)[j];
+		Node* key = getFile(root, str2);
+		if (key != NULL && key->isLeaf != 0)
+		{
+			if (common.empty())
+				common = key->myv;
+			else
+				common = mergeVector(key->myv, common);
+		}
+	}
+}
+
 
 // OTHER FUNCTIONS
 void title()
