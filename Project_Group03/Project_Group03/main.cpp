@@ -26,6 +26,9 @@ int main()
 	cout << "Loading time: " << (double)(clock() - start) / CLOCKS_PER_SEC << endl << endl;
 
 	// SEARCH
+	cout << "*** Type \"exit\" to exit the program (Want to search for \"exit\"? Enter + type in \"exit\")" << endl << endl;
+	cout << "*** 10 Queries supported: " << endl;
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
 
 	return 0;
 }
