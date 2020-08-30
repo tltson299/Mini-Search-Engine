@@ -35,8 +35,15 @@ int main()
 	cout << "4. PRICE (example: camera $400)             9. RANGE(example: camera $100..$500)" << endl;
 	cout << "5. HASTAG(example: #MileyCyrus)            10. MINUS(example: New -York)" << endl << endl;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-	
-	
+	cout<< "*** HISTORY SEARCH: " << endl << endl;
+	cout << "*** Please enter keyword: ";
+	cin.getline(input, 50, '\n');
+	cout << endl;
+
+	while (strcmp(input, "exit") != 0)
+	{
+		history.push_back(input);
+	}
 
 	// DELETE POINTERS
 	delete[] str1;
