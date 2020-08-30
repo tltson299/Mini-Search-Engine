@@ -200,6 +200,7 @@ void Trie::ouputVectorEx(vector<string> mys, string filename, bool& found, vecto
 	}
 	cout << endl;
 }
+
 // check if keywords are on the sentence
 bool Trie::checkOnVector(vector<string> input, string word)
 {
@@ -347,6 +348,15 @@ bool Trie::queryPrice(vector<string> input)
 	return false;
 }
 
+bool Trie::queryHastag(vector<string> input)
+{
+	for (int i = 0; i < input.size(); ++i)
+	{
+		if (input.at(i)[0] == '#')
+			return true;
+	}
+	return false;
+}
 
 // OTHER FUNCTIONS
 void title()
