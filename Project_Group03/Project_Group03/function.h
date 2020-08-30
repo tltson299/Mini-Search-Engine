@@ -46,6 +46,7 @@ public:
 	void commonVector(vector<int> inputvt, vector<int>& common);
 	void getQueryAnd(Node* root, vector<string>& store, char*& str2, vector<int>& common, int& countN, int qt);
 	void getQueryOr(Node* root2, vector<string>& store, char*& str2, vector<int>& common, int& countN);
+	bool queryPrice(vector<string> input);
 	// output functions
 	void outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle);
 	void ouputVectorEx(vector<string> mys, string filename, bool& found, vector<string> highlight, int pos);

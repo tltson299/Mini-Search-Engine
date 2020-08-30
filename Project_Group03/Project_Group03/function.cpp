@@ -337,6 +337,15 @@ void Trie::getQueryOr(Node* root2, vector<string>& store, char*& str2, vector<in
 		}
 	}
 }
+bool Trie::queryPrice(vector<string> input)
+{
+	for (int i = 0; i < input.size(); ++i)
+	{
+		if (input.at(i)[0] == '$')
+			return true;
+	}
+	return false;
+}
 
 
 // OTHER FUNCTIONS
