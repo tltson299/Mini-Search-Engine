@@ -36,6 +36,12 @@ int main()
 	cout << "5. HASTAG(example: #MileyCyrus)            10. MINUS(example: New -York)" << endl << endl;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	
+	
+
+	// DELETE POINTERS
+	delete[] str1;
+	delete[] str2;
+	delete[] input;
 
 	return 0;
 }
