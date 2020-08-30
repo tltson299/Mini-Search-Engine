@@ -358,6 +358,41 @@ bool Trie::queryHastag(vector<string> input)
 	return false;
 }
 
+bool Trie::queryIntitle(string input)
+{
+	if (input.length() >= 8)
+	{
+		string temp = "";
+		for (int i = 0; i < 8; ++i)
+			temp += input[i];
+		if (temp == "intitle:")
+			return true;
+	}
+	return false;
+}
+
+bool Trie::queryFileType(string input)
+{
+	if (input.length() >= 9)
+	{
+		string temp = "";
+		for (int i = 0; i < 9; ++i)
+			temp += input[i];
+		if (temp == "filetype:")
+			return true;
+	}
+	return false;
+}
+
+bool Trie::queryExact(vector<string> input)
+{
+	string last = input.at(input.size() - 1);
+	if (input.at(0)[0] == '\"' && last[last.size() - 1] == '\"')
+		return true;
+	else
+		return false;
+}
+
 // OTHER FUNCTIONS
 void title()
 {
