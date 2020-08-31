@@ -42,6 +42,12 @@ int main()
 
 	while (strcmp(input, "exit") != 0)
 	{
+		while (strcmp(input, "") == 0) // check if user type in nothing
+		{
+			cout << "Empty!!! Please enter keyword again: ";
+			cin.getline(input, 50, '\n');
+			cout << endl;
+		}
 		history.push_back(input);
 	}
 
