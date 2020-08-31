@@ -48,6 +48,9 @@ public:
 	void getQueryOr(Node* root2, vector<string>& store, char*& str2, vector<int>& common, int& countN);
 	bool queryPrice(vector<string> input);
 	bool queryHastag(vector<string> input);
+	bool queryIntitle(string input);
+	bool queryFileType(string input);
+	bool queryExact(vector<string> input);
 	// output functions
 	void outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle);
 	void ouputVectorEx(vector<string> mys, string filename, bool& found, vector<string> highlight, int pos);
