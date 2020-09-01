@@ -49,6 +49,31 @@ int main()
 			cout << endl;
 		}
 		history.push_back(input);
+		
+		cout << endl << "*** ENTER TO CONTINUE ***" << endl;
+		cin.get();
+		system("CLS");
+		title();
+		cout << "*** Type \"exit\" to exit the program (Want to search for \"exit\"? Enter + type in \"exit\")" << endl << endl;
+		cout << "*** 10 Queries supported: " << endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+		cout << "  1. AND                                      6. FILETYPE(example: filetype: txt)" << endl;
+		cout << "  2. OR                                       7. INTITLE(example: intitle: beer)" << endl;
+		cout << "  3. PLUS (put + before the stopword)         8. EXACT(example: \"star wars\") " << endl;
+		cout << "  4. PRICE (example: camera $400)             9. RANGE(example: camera $100..$500)" << endl;
+		cout << "  5. HASTAG(example: #MileyCyrus)            10. MINUS(example: New -York)" << endl << endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		cout << "*** HISTORY SEARCH: " << endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+		if (history.size() > 5)
+			history.erase(history.begin());
+		for (int i = 0; i < history.size(); ++i)
+			cout << "  > " << history.at(i) << endl;
+		cout << endl;
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		cout << "*** Please enter keyword: ";
+		cin.getline(input, 50, '\n');
+		cout << endl;
 	}
 
 	// DELETE POINTERS
