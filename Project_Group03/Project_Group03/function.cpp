@@ -395,6 +395,62 @@ bool Trie::queryExact(vector<string> input)
 		return false;
 }
 
+bool Trie::queryRange(vector<string>& input, string& start, string& end, string& sim)
+{
+	int count = 0;
+	for (int i = 0; i < input.size(); i++)
+	{
+		size_t found = input.at(i).find("..");
+		if (found != string::npos)
+		{
+			start = input.at(i).substr(0, found);
+			end = input.at(i).substr(found + 2, input.at(i).size() - 1);
+			input.erase(input.begin() + i);
+			count++;
+		}
+	}
+	if (count == 0)
+		return false;
+	int k = 0;
+	string symbol = "", symbol2 = "";
+	while (!isdigit(start[0]))
+	{
+		symbol = symbol + start[0];
+		start.erase(start.begin());
+	}
+	while (!isdigit(end[0]))
+	{
+		symbol2 = symbol2 + end[0];
+		end.erase(end.begin());
+	}
+	if (symbol == symbol2)
+	{
+		sim = symbol;
+		return true;
+	}
+	else
+		return false;
+}
+
+bool Trie::queryMinus(vector<string>& input, vector<string>& minus)
+{
+	int count = 0;
+	for (int i = 0; i < input.size(); i++)
+	{
+		if (input.at(i)[0] == '-')
+		{
+			count++;
+			input.at(i).erase(input.at(i).begin());
+			minus.push_back(input.at(i));
+			input.erase(input.begin() + i);
+		}
+	}
+	if (count != 0)
+		return true;
+	else
+		return false;
+}
+
 // OTHER FUNCTIONS
 void title()
 {

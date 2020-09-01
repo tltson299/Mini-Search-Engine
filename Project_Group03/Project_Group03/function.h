@@ -51,6 +51,8 @@ public:
 	bool queryIntitle(string input);
 	bool queryFileType(string input);
 	bool queryExact(vector<string> input);
+	bool queryRange(vector<string>& input, string& start, string& end, string& sim);
+	bool queryMinus(vector<string>& input, vector<string>& minus);
 	// output functions
 	void outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle);
 	void ouputVectorEx(vector<string> mys, string filename, bool& found, vector<string> highlight, int pos);
