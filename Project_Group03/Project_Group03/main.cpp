@@ -22,7 +22,8 @@ int main()
 	// LOAD DATA & STOPWORDS
 	cout << "Loading..." << endl;
 	trie.getFileName(trie.root, str1, vt1);
-	stopword.readWord("stopwords.txt", stopword.root, str2, 0);
+	string word;
+	stopword.readWord("stopwords.txt", stopword.root, 0,word);
 	cout << "Loading time: " << (double)(clock() - start) / CLOCKS_PER_SEC << endl << endl;
 
 	// SEARCH

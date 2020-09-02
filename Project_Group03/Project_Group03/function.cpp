@@ -7,19 +7,23 @@ Node* Trie::createNode()
 	return node;
 }
 
-void Trie::insert(Node*& root, char* str, int i)
+void Trie::insert(Node*& root, string str, int i)
 {
 	if (root == NULL)
 		root = createNode();
-	lowerChar(str);
+	lowerString(str);
 	Node* cur = root;
-	while (*str)
+	for (int i = 0; i < str.size(); i++)
 	{
-		lowerChar(str);
-		if (cur->mapkey.find(*str) == cur->mapkey.end())
-			cur->mapkey[*str] = createNode();
-		cur = cur->mapkey[*str];
-		str++;
+		char x = str[i];
+		if (x == '—') x == '-';
+		if (x == '“') x = '"';
+		if (x == '”') x = '"';
+		if (x == '’') x = '\'';
+		if (x == '‘') x = '\'';
+		if (cur->mapkey.find(x) == cur->mapkey.end())
+			cur->mapkey[x] = createNode();
+		cur = cur->mapkey[x];
 	}
 	if (cur->myv.empty())
 		cur->myv.push_back(i);
@@ -28,21 +32,30 @@ void Trie::insert(Node*& root, char* str, int i)
 	cur->isLeaf = true;
 }
 
-void Trie::readWord(string ptr, Node*& root, char* str, int i)
+void Trie::readWord(string ptr, Node*& root, int i, string word)
 {
 	fstream file;
-	string word;
 	file.open(ptr);
 	while (file >> word) // take word and print
 	{
-		str = new char[word.size() + 1];
-		for (int i = 0; i < word.size() + 1; i++)
-			str[i] = word[i];
-		insert(root, str, i);
+		insert(root, word, i);
 	}
 	file.close();
 }
 
+void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
+{
+	int i = 0;
+	string titleName;
+	string word;
+	for (auto& p : directory_iterator("data")) // data files put in folder "data"
+	{
+		titleName = p.path().filename().string();
+		vt.push_back(titleName);
+		readWord("data/" + titleName, root, i, word);
+		i++;
+	}
+}
 void Trie::deleteTrie(Node*& root)
 {
 	map<char, Node*>::iterator it;
@@ -51,23 +64,6 @@ void Trie::deleteTrie(Node*& root)
 	for (it = root->mapkey.begin(); it != root->mapkey.end(); it++)
 		deleteTrie(it->second);
 	delete root;
-}
-
-void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
-{
-	fstream fo;
-	int i = 0;
-	string titleName;
-	fo.open("file_name.txt", ios::out);
-	for (auto& p : directory_iterator("data")) // data files put in folder "data"
-	{
-		fo << p.path().filename() << "\n"; // p.path(): file name
-		titleName = p.path().filename().string();
-		vt.push_back(titleName);
-		readWord("data/" + titleName, root, str, i);
-		i++;
-	}
-	fo.close();
 }
 
 // remove stopwords
