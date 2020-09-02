@@ -49,7 +49,7 @@ int main()
 			cout << endl;
 		}
 		history.push_back(input);
-		
+		trie.QueryOperator(trie.root, input, vt1, stopword.root); // main function: check, search, output query
 		cout << endl << "*** ENTER TO CONTINUE ***" << endl;
 		cin.get();
 		system("CLS");
