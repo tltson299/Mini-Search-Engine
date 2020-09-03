@@ -60,6 +60,7 @@ public:
 	void ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight);
 	bool checkString(string input, string word);
 	bool checkOnVector(vector<string> input, string word);
+	bool checkIntOnVector(vector<int>minus, int input);
 };
 
 // OTHER FUNCTIONS

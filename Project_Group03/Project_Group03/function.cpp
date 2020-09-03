@@ -211,6 +211,18 @@ bool Trie::checkOnVector(vector<string> input, string word)
 		return false;
 }
 
+bool Trie::checkIntOnVector(vector<int>minus, int input)
+{
+	int count = 0;
+	for (int i = 0; i < minus.size(); i++)
+		if (minus.at(i) == input)
+			count++;
+	if (count != 0)
+		return true;
+	else
+		return false;
+}
+
 void Trie::outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle)
 {
 	fstream file;
@@ -540,6 +552,199 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
 		return;
 	}
+	while (iss >> word)
+	{
+		lowerString(word);
+		store.push_back(word);
+	}
+	// QUERY INTITLE
+	if (queryIntitle(store.at(0)))
+	{
+		queryType = 5;
+		if (store.at(0).length() > 8)
+			store.at(0).erase(0, 8);
+		else /*store.at(0).length() == 8*/
+		{
+			if (store.size() == 1)
+			{
+				cout << "QUERY INTITLE" << endl << endl
+					<< "Error!!! Please type in a keyword." << endl << endl;
+				return;
+			}
+			else
+				store.erase(store.begin());
+		}
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// Query EXACT
+	else if (queryExact(store))
+	{
+		store.at(0).erase(store.at(0).begin());
+		store.at(store.size() - 1).pop_back();;
+		queryType = 6;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// Query RANGE
+	else if (queryRange(store, start, end, sim))
+	{
+		start1 = clock();
+		if (!store.empty()) store.push_back("demo");
+		for (int i = atoi(start.c_str()); i <= atoi(end.c_str()); i++)
+		{
+			countN = 0;
+			common.clear();
+			if (!store.empty())
+				store.pop_back();
+			store.push_back(sim + to_string(i));
+			queryType = 6;
+			getQueryAnd(root2, store, str2, common, countN, queryType);
+			count = 0;
+			for (int j = 0; j < common.size(); j++)
+			{
+				if (count < 1)
+					if (countN == store.size())
+						outPutResult("data/" + vt.at(common.at(j)), store, count, false, false);
+					else
+						break;
+			}
+		}
+		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
+		goto b;
+	}
+	// Query OR
+	else if (checkOnVector(store, "or"))
+	{
+		getQueryOr(root2, store, str2, common, countN);
+		queryType = 2;
+	}
+	// Query MINUS
+	else if (queryMinus(store, minus))
+	{
+		queryType = 7;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+		str2 = new char[20];
+		vector<int> common2;
+		getQueryOr(root2, minus, str2, common2, countN);
+		for (int i = 0; i < common.size(); i++) {
+			if (checkIntOnVector(common2, common.at(i)))
+			{
+				common.erase(common.begin() + i);
+				i--;
+			}
+		}
+	}
+	// QUERY PRICE
+	else if (queryPrice(store))
+	{
+		queryType = 3;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// QUERY HASTAG
+	else if (queryHastag(store))
+	{
+		queryType = 4;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// Query AND
+	else
+	{
+		queryType = 1;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	count = 0;
+	cout << endl;
+	start1 = clock();
+	for (int i = 0; i < common.size(); i++)
+	{
+		if (count < 10)
+		{
+			// Output for query and
+			if (queryType == 1)
+			{
+				if (!qAND)
+				{
+					cout << "QUERY AND" << endl << endl;
+					qAND = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+				else
+					goto a;
+			}
+			// Output for query or
+			else if (queryType == 2)
+			{
+				if (!qOR)
+				{
+					cout << "QUERY OR" << endl << endl;
+					qOR = true;
+				}
+				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			// Output for query price
+			else if (queryType == 3)
+			{
+				if (!qPrice)
+				{
+					cout << "QUERY PRICE" << endl << endl;
+					qPrice = true;
+				}
+				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			// Output for query hastag
+			else if (queryType == 4)
+			{
+				if (!qHastag)
+				{
+					cout << "QUERY HASTAG" << endl << endl;
+					qHastag = true;
+				}
+				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			// Output for query intitle
+			else if (queryType == 5)
+			{
+				if (!qIntitle)
+				{
+					cout << "QUERY INTITLE" << endl << endl;
+					qIntitle = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, false, true);
+				else
+					goto a;
+			}
+			// Output for query exact
+			else if (queryType == 6)
+			{
+				if (!qExact)
+				{
+					cout << "QUERY EXACT" << endl << endl;
+					qExact = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, true, false);
+			}
+			// Output for query minus
+			else if (queryType == 7)
+			{
+				if (!qMinus)
+				{
+					cout << "QUERY MINUS" << endl << endl;
+					qMinus = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		}
+		else
+			break;
+	}
+a:
+	cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
+b:
+	delete[] str2;
 }
 
 // OTHER FUNCTIONS
