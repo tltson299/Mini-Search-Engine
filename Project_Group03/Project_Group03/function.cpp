@@ -56,6 +56,7 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 		i++;
 	}
 }
+
 void Trie::deleteTrie(Node*& root)
 {
 	map<char, Node*>::iterator it;
@@ -222,6 +223,25 @@ bool Trie::checkIntOnVector(vector<int>minus, int input)
 	else
 		return false;
 }
+
+void Trie::checkPlus(vector<string>& input, Node* root2, vector<string>& result)
+{
+	char* str2;
+	for (int i = 0; i < input.size(); ++i)
+	{
+		if (input.at(i)[0] == '+')
+		{
+			input.at(i).erase(0, 1);
+			str2 = new char[input.at(i).size() + 1];
+			for (int j = 0; j < input.at(i).size() + 1; j++)
+				str2[j] = input.at(i)[j];
+			if (getFile(root2, str2) != NULL)
+				result.push_back(str2);
+			delete[] str2;
+		}
+	}
+}
+
 
 void Trie::outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle)
 {

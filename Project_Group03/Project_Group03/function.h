@@ -61,6 +61,7 @@ public:
 	bool checkString(string input, string word);
 	bool checkOnVector(vector<string> input, string word);
 	bool checkIntOnVector(vector<int>minus, int input);
+	void checkPlus(vector<string>& input, Node* root2, vector<string>& result);
 };
 
 // OTHER FUNCTIONS
