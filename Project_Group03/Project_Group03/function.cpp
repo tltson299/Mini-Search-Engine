@@ -1,5 +1,16 @@
 #include "function.h"
 
+void Trie::deleteTrie(Node*& root)
+{
+	map<char, Node*>::iterator it;
+	if (root == NULL)
+		return;
+	for (it = root->mapkey.begin(); it != root->mapkey.end(); it++)
+		deleteTrie(it->second);
+	delete root;
+	root = NULL;
+}
+
 Node* Trie::createNode()
 {
 	Node* node = new Node;
@@ -16,11 +27,11 @@ void Trie::insert(Node*& root, string str, int i)
 	for (int i = 0; i < str.size(); i++)
 	{
 		char x = str[i];
-		if (x == '—') x == '-';
-		if (x == '“') x = '"';
-		if (x == '”') x = '"';
-		if (x == '’') x = '\'';
-		if (x == '‘') x = '\'';
+		if (x == 'ï¿½') x == '-';
+		if (x == 'ï¿½') x = '"';
+		if (x == 'ï¿½') x = '"';
+		if (x == 'ï¿½') x = '\'';
+		if (x == 'ï¿½') x = '\'';
 		if (cur->mapkey.find(x) == cur->mapkey.end())
 			cur->mapkey[x] = createNode();
 		cur = cur->mapkey[x];
@@ -253,11 +264,11 @@ void Trie::outPutResult(string fileName, vector<string> input, int& count, bool 
 	while (file >> word) //take word and print
 	{
 		for (int i = 0; i < word.size() + 1; i++) {
-			if (word[i] == '—') word[i] == '-';
-			if (word[i] == '“') word[i] = '"';
-			if (word[i] == '”') word[i] = '"';
-			if (word[i] == '’') word[i] = '\'';
-			if (word[i] == '‘') word[i] = '\'';
+			if (word[i] == 'ï¿½') word[i] == '-';
+			if (word[i] == 'ï¿½') word[i] = '"';
+			if (word[i] == 'ï¿½') word[i] = '"';
+			if (word[i] == 'ï¿½') word[i] = '\'';
+			if (word[i] == 'ï¿½') word[i] = '\'';
 		}
 		mys.push_back(word);
 		if (word[word.size() - 1] == '.' || (word.size() > 1 && word[word.size() - 2] == '.'))
@@ -543,11 +554,11 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 						while (getdata >> ww) {
 							for (int k = 0; k <= ww.size(); k++)
 							{
-								if (ww[k] == '—') ww[k] == '-';
-								if (ww[k] == '“') ww[k] = '"';
-								if (ww[k] == '”') ww[k] = '"';
-								if (ww[k] == '’') ww[k] = '\'';
-								if (ww[k] == '‘') ww[k] = '\'';
+								if (ww[k] == 'ï¿½') ww[k] == '-';
+								if (ww[k] == 'ï¿½') ww[k] = '"';
+								if (ww[k] == 'ï¿½') ww[k] = '"';
+								if (ww[k] == 'ï¿½') ww[k] = '\'';
+								if (ww[k] == 'ï¿½') ww[k] = '\'';
 							}
 						}
 						getline(res, data);

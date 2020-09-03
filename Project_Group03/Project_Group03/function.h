@@ -32,6 +32,11 @@ public:
 class Trie
 {
 public:
+	// destructor
+	~Trie()
+	{
+		deleteTrie(root);
+	}
 	Node* root = nullptr;
 	// build and delete trie function
 	Node* createNode();
