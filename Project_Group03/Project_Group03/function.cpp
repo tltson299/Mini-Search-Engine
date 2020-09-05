@@ -1,16 +1,5 @@
 #include "function.h"
 
-void Trie::deleteTrie(Node*& root)
-{
-	map<char, Node*>::iterator it;
-	if (root == NULL)
-		return;
-	for (it = root->mapkey.begin(); it != root->mapkey.end(); it++)
-		deleteTrie(it->second);
-	delete root;
-	root = NULL;
-}
-
 Node* Trie::createNode()
 {
 	Node* node = new Node;
@@ -542,7 +531,8 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 					++check;
 					res.open("data/" + file, ios::in);
 					if (!res.is_open())
-						cout << "Can not load file." << endl << endl;
+						--check;
+						// cout << "Can not load file." << endl << endl;
 					else
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
@@ -551,7 +541,8 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 						cout << endl << endl;
 						string data, ww;
 						stringstream getdata(data);
-						while (getdata >> ww) {
+						while (getdata >> ww)
+						{
 							for (int k = 0; k <= ww.size(); k++)
 							{
 								if (ww[k] == '�') ww[k] == '-';
@@ -572,7 +563,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 					res.close();
 				}
 				count = 0;
-				if (check > 10)
+				if (check >= 10)
 					break;
 			}
 			if (check == 0)
@@ -607,7 +598,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		}
 		getQueryAnd(root2, store, str2, common, countN, queryType);
 	}
-	// Query EXACT
+	// QUERY EXACT
 	else if (queryExact(store))
 	{
 		store.at(0).erase(store.at(0).begin());
@@ -615,7 +606,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		queryType = 6;
 		getQueryAnd(root2, store, str2, common, countN, queryType);
 	}
-	// Query RANGE
+	// QUERY RANGE
 	else if (queryRange(store, start, end, sim))
 	{
 		start1 = clock();
@@ -642,13 +633,13 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
 		goto b;
 	}
-	// Query OR
+	// QUERY OR
 	else if (checkOnVector(store, "or"))
 	{
 		getQueryOr(root2, store, str2, common, countN);
 		queryType = 2;
 	}
-	// Query MINUS
+	// QUERY MINUS
 	else if (queryMinus(store, minus))
 	{
 		queryType = 7;
@@ -676,7 +667,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		queryType = 4;
 		getQueryAnd(root2, store, str2, common, countN, queryType);
 	}
-	// Query AND
+	// QUERY AND
 	else
 	{
 		queryType = 1;

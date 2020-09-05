@@ -32,19 +32,18 @@ public:
 class Trie
 {
 public:
-	// destructor
+	// build and delete trie functions
 	~Trie()
 	{
 		deleteTrie(root);
 	}
 	Node* root = nullptr;
-	// build and delete trie function
 	Node* createNode();
 	void insert(Node*& root, string str, int i);
 	void readWord(string ptr, Node*& root, int i, string word);
 	void getFileName(Node*& root, char* str, vector<string>& vt);
 	void deleteTrie(Node*& root);
-	// main algorithm function
+	// main algorithm functions
 	Node* getFile(Node* root, char* str);
 	void removeStopWord(vector<string>& store, Node* root2);
 	// queries functions
