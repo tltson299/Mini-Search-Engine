@@ -16,11 +16,11 @@ void Trie::insert(Node*& root, string str, int i)
 	for (int i = 0; i < str.size(); i++)
 	{
 		char x = str[i];
-		if (x == '�') x == '-';
-		if (x == '�') x = '"';
-		if (x == '�') x = '"';
-		if (x == '�') x = '\'';
-		if (x == '�') x = '\'';
+		if (x == '—') x == '-';
+		if (x == '“') x = '"';
+		if (x == '”') x = '"';
+		if (x == '’') x = '\'';
+		if (x == '‘') x = '\'';
 		if (cur->mapkey.find(x) == cur->mapkey.end())
 			cur->mapkey[x] = createNode();
 		cur = cur->mapkey[x];
@@ -32,14 +32,53 @@ void Trie::insert(Node*& root, string str, int i)
 	cur->isLeaf = true;
 }
 
-void Trie::readWord(string ptr, Node*& root, int i, string word)
+void Trie::readWord(vector<string>& ptr, Node*& root, int i)
 {
-	fstream file;
-	file.open(ptr);
-	while (file >> word) // take word and print
+	fstream file, file1, file2, file3, file4, file5, file6, file7, file8, file9;
+	file.open(ptr.at(0));
+	file1.open(ptr.at(1));
+	file2.open(ptr.at(2));
+	file3.open(ptr.at(3));
+	file4.open(ptr.at(4));
+	file5.open(ptr.at(5));
+	file6.open(ptr.at(6));
+	file7.open(ptr.at(7));
+	file8.open(ptr.at(8));
+	file9.open(ptr.at(9));
+	string word, word1, word2, word3, word4, word5, word6, word7, word8, word9;
+	while (file >> word && file1 >> word1 && file2 >> word2 && file3 >> word3 && file4 >> word4 &&
+		file5 >> word5 && file6 >> word6 && file7 >> word7 && file8 >> word8 && file9 >> word9) // take word and print
 	{
 		insert(root, word, i);
+		insert(root, word1, i + 1);
+		insert(root, word2, i + 2);
+		insert(root, word3, i + 3);
+		insert(root, word4, i + 4);
+		insert(root, word5, i + 5);
+		insert(root, word6, i + 6);
+		insert(root, word7, i + 7);
+		insert(root, word8, i + 8);
+		insert(root, word9, i + 9);
 	}
+	ptr.clear();
+	file.close();
+	file1.close();
+	file2.close();
+	file3.close();
+	file4.close();
+	file5.close();
+	file6.close();
+	file7.close();
+	file8.close();
+	file9.close();
+}
+
+void Trie::readStop(string ptr, Node*& root, int i)
+{
+	fstream file;
+	file.open(ptr); string word;
+	while (file >> word)
+		insert(root, word, i);
 	file.close();
 }
 
@@ -47,13 +86,16 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 {
 	int i = 0;
 	string titleName;
-	string word;
+	vector<string> multi;
 	for (auto& p : directory_iterator("data")) // data files put in folder "data"
 	{
 		titleName = p.path().filename().string();
 		vt.push_back(titleName);
-		readWord("data/" + titleName, root, i, word);
-		i++;
+		multi.push_back("data/" + titleName);
+		if (multi.size() == 10) {
+			readWord(multi, root, i);
+			i = i + 10;
+		}
 	}
 }
 
@@ -65,11 +107,13 @@ void Trie::deleteTrie(Node*& root)
 	for (it = root->mapkey.begin(); it != root->mapkey.end(); it++)
 		deleteTrie(it->second);
 	delete root;
+	root = NULL;
 }
 
-// remove stopwords
 void Trie::removeStopWord(vector<string>& store, Node* root2)
 {
+	vector<string> result;
+	checkPlus(store, root2, result);
 	char* str3 = new char[50];
 	for (int i = 0; i < store.size(); ++i)
 	{
@@ -78,8 +122,11 @@ void Trie::removeStopWord(vector<string>& store, Node* root2)
 		Node* key1 = getFile(root2, str3);
 		if (key1 != NULL && key1->isLeaf != 0)
 		{
-			store.erase(store.begin() + i);
-			--i;
+			if (!checkOnVector(result, store.at(i)))
+			{
+				store.erase(store.begin() + i);
+				--i;
+			}
 		}
 		delete[] str3;
 	}
@@ -102,6 +149,7 @@ Node* Trie::getFile(Node* root, char* str)
 	return cur;
 }
 
+// find commonvector
 void Trie::commonVector(vector<int> inputvt, vector<int>& common)
 {
 	int i = 0, j = 0;
@@ -122,24 +170,19 @@ void Trie::commonVector(vector<int> inputvt, vector<int>& common)
 	common = vec;
 }
 
-bool Trie::checkString(string input, string word)
+// check if the input word is on the vector
+bool Trie::checkOnVector(vector<string> input, string word)
 {
 	int count = 0;
-	lowerString(word);
 	for (int i = 0; i < input.size(); i++)
-		if (word.size() >= input.size() && input[i] == word[i])
+		if (checkString(input.at(i), word))
 			count++;
-	if (word.size() >= count + 1)
-		if (word[count + 1] != '!' || word[count + 1] != '?' ||
-			word[count + 1] != '\'' || word[count + 1] != '.' || word[count + 1] != ',')
-			return false;
-	if (count == input.size())
+	if (count != 0)
 		return true;
 	else
 		return false;
 }
 
-// output the sentence that contain keywords
 void Trie::ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight)
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
@@ -199,49 +242,22 @@ void Trie::ouputVectorEx(vector<string> mys, string filename, bool& found, vecto
 	cout << endl;
 }
 
-// check if keywords are on the sentence
-bool Trie::checkOnVector(vector<string> input, string word)
+bool Trie::checkString(string input, string word)
 {
 	int count = 0;
+	lowerString(word);
 	for (int i = 0; i < input.size(); i++)
-		if (checkString(input.at(i), word))
+		if (word.size() >= input.size() && input[i] == word[i])
 			count++;
-	if (count != 0)
+	if (word.size() > count)
+		if (word[count] != '!' && word[count] != '?' && word[count] != '\''
+			&& word[count] != '.' && word[count] != ',' && word[count] != ':')
+			return false;
+	if (count == input.size())
 		return true;
 	else
 		return false;
 }
-
-bool Trie::checkIntOnVector(vector<int>minus, int input)
-{
-	int count = 0;
-	for (int i = 0; i < minus.size(); i++)
-		if (minus.at(i) == input)
-			count++;
-	if (count != 0)
-		return true;
-	else
-		return false;
-}
-
-void Trie::checkPlus(vector<string>& input, Node* root2, vector<string>& result)
-{
-	char* str2;
-	for (int i = 0; i < input.size(); ++i)
-	{
-		if (input.at(i)[0] == '+')
-		{
-			input.at(i).erase(0, 1);
-			str2 = new char[input.at(i).size() + 1];
-			for (int j = 0; j < input.at(i).size() + 1; j++)
-				str2[j] = input.at(i)[j];
-			if (getFile(root2, str2) != NULL)
-				result.push_back(str2);
-			delete[] str2;
-		}
-	}
-}
-
 
 void Trie::outPutResult(string fileName, vector<string> input, int& count, bool exact, bool intitle)
 {
@@ -253,11 +269,11 @@ void Trie::outPutResult(string fileName, vector<string> input, int& count, bool 
 	while (file >> word) //take word and print
 	{
 		for (int i = 0; i < word.size() + 1; i++) {
-			if (word[i] == '�') word[i] == '-';
-			if (word[i] == '�') word[i] = '"';
-			if (word[i] == '�') word[i] = '"';
-			if (word[i] == '�') word[i] = '\'';
-			if (word[i] == '�') word[i] = '\'';
+			if (word[i] == '—') word[i] == '-';
+			if (word[i] == '“') word[i] = '"';
+			if (word[i] == '”') word[i] = '"';
+			if (word[i] == '’') word[i] = '\'';
+			if (word[i] == '‘') word[i] = '\'';
 		}
 		mys.push_back(word);
 		if (word[word.size() - 1] == '.' || (word.size() > 1 && word[word.size() - 2] == '.'))
@@ -479,6 +495,36 @@ bool Trie::queryMinus(vector<string>& input, vector<string>& minus)
 		return false;
 }
 
+bool Trie::checkIntOnVector(vector<int>minus, int input)
+{
+	int count = 0;
+	for (int i = 0; i < minus.size(); i++)
+		if (minus.at(i) == input)
+			count++;
+	if (count != 0)
+		return true;
+	else
+		return false;
+}
+
+void Trie::checkPlus(vector<string>& input, Node* root2, vector<string>& result)
+{
+	char* str2;
+	for (int i = 0; i < input.size(); ++i)
+	{
+		if (input.at(i)[0] == '+')
+		{
+			input.at(i).erase(0, 1);
+			str2 = new char[input.at(i).size() + 1];
+			for (int j = 0; j < input.at(i).size() + 1; j++)
+				str2[j] = input.at(i)[j];
+			if (getFile(root2, str2) != NULL)
+				result.push_back(str2);
+			delete[] str2;
+		}
+	}
+}
+
 // excute every query
 void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 {
@@ -531,8 +577,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 					++check;
 					res.open("data/" + file, ios::in);
 					if (!res.is_open())
-						--check;
-						// cout << "Can not load file." << endl << endl;
+						cout << "Can not load file." << endl << endl;
 					else
 					{
 						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
@@ -541,15 +586,14 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 						cout << endl << endl;
 						string data, ww;
 						stringstream getdata(data);
-						while (getdata >> ww)
-						{
+						while (getdata >> ww) {
 							for (int k = 0; k <= ww.size(); k++)
 							{
-								if (ww[k] == '�') ww[k] == '-';
-								if (ww[k] == '�') ww[k] = '"';
-								if (ww[k] == '�') ww[k] = '"';
-								if (ww[k] == '�') ww[k] = '\'';
-								if (ww[k] == '�') ww[k] = '\'';
+								if (ww[k] == '—') ww[k] == '-';
+								if (ww[k] == '“') ww[k] = '"';
+								if (ww[k] == '”') ww[k] = '"';
+								if (ww[k] == '’') ww[k] = '\'';
+								if (ww[k] == '‘') ww[k] = '\'';
 							}
 						}
 						getline(res, data);
@@ -563,7 +607,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 					res.close();
 				}
 				count = 0;
-				if (check >= 10)
+				if (check > 10)
 					break;
 			}
 			if (check == 0)
@@ -598,7 +642,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		}
 		getQueryAnd(root2, store, str2, common, countN, queryType);
 	}
-	// QUERY EXACT
+	// Query EXACT
 	else if (queryExact(store))
 	{
 		store.at(0).erase(store.at(0).begin());
@@ -606,7 +650,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		queryType = 6;
 		getQueryAnd(root2, store, str2, common, countN, queryType);
 	}
-	// QUERY RANGE
+	// Query RANGE
 	else if (queryRange(store, start, end, sim))
 	{
 		start1 = clock();
@@ -633,13 +677,13 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
 		goto b;
 	}
-	// QUERY OR
+	// Query OR
 	else if (checkOnVector(store, "or"))
 	{
 		getQueryOr(root2, store, str2, common, countN);
 		queryType = 2;
 	}
-	// QUERY MINUS
+	// Query MINUS
 	else if (queryMinus(store, minus))
 	{
 		queryType = 7;
@@ -667,7 +711,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		queryType = 4;
 		getQueryAnd(root2, store, str2, common, countN, queryType);
 	}
-	// QUERY AND
+	// Query AND
 	else
 	{
 		queryType = 1;
@@ -769,7 +813,6 @@ b:
 	delete[] str2;
 }
 
-// OTHER FUNCTIONS
 void title()
 {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);

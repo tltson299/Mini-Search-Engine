@@ -22,8 +22,7 @@ int main()
 	// LOAD DATA & STOPWORDS
 	cout << "Loading..." << endl;
 	trie.getFileName(trie.root, str1, vt1);
-	string word;
-	stopword.readWord("stopwords.txt", stopword.root, 0,word);
+	stopword.readStop("stopwords.txt", stopword.root, 0);
 	cout << "Loading time: " << (double)(clock() - start) / CLOCKS_PER_SEC << endl << endl;
 
 	// SEARCH
@@ -36,7 +35,7 @@ int main()
 	cout << "4. PRICE (example: camera $400)             9. RANGE(example: camera $100..$500)" << endl;
 	cout << "5. HASTAG(example: #MileyCyrus)            10. MINUS(example: New -York)" << endl << endl;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-	cout<< "*** HISTORY SEARCH: " << endl << endl;
+	cout << "*** HISTORY SEARCH: " << endl << endl;
 	cout << "*** Please enter keyword: ";
 	cin.getline(input, 50, '\n');
 	cout << endl;
