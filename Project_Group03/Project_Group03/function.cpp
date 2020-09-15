@@ -1,4 +1,4 @@
-#include "function.h"
+#include "Function.h"
 
 Node* Trie::createNode()
 {
@@ -13,9 +13,10 @@ void Trie::insert(Node*& root, string str, int i)
 		root = createNode();
 	lowerString(str);
 	Node* cur = root;
-	for (int i = 0; i < str.size(); i++)
+	int k = 0;
+	while (k < str.size())
 	{
-		char x = str[i];
+		char x = str[k];
 		if (x == '—') x == '-';
 		if (x == '“') x = '"';
 		if (x == '”') x = '"';
@@ -24,6 +25,7 @@ void Trie::insert(Node*& root, string str, int i)
 		if (cur->mapkey.find(x) == cur->mapkey.end())
 			cur->mapkey[x] = createNode();
 		cur = cur->mapkey[x];
+		k++;
 	}
 	if (cur->myv.empty())
 		cur->myv.push_back(i);
@@ -32,54 +34,30 @@ void Trie::insert(Node*& root, string str, int i)
 	cur->isLeaf = true;
 }
 
+void Trie::readStop(string ptr, Node*& root, int i) {
+	fstream file;
+	file.open(ptr); string word;
+	while (file >> word) {
+		insert(root, word, i);
+	}
+	file.close();
+}
 void Trie::readWord(vector<string>& ptr, Node*& root, int i)
 {
-	fstream file, file1, file2, file3, file4, file5, file6, file7, file8, file9;
+	vector<string> name;
+	fstream file, file1;
 	file.open(ptr.at(0));
 	file1.open(ptr.at(1));
-	file2.open(ptr.at(2));
-	file3.open(ptr.at(3));
-	file4.open(ptr.at(4));
-	file5.open(ptr.at(5));
-	file6.open(ptr.at(6));
-	file7.open(ptr.at(7));
-	file8.open(ptr.at(8));
-	file9.open(ptr.at(9));
-	string word, word1, word2, word3, word4, word5, word6, word7, word8, word9;
-	while (file >> word && file1 >> word1 && file2 >> word2 && file3 >> word3 && file4 >> word4 &&
-		file5 >> word5 && file6 >> word6 && file7 >> word7 && file8 >> word8 && file9 >> word9) // take word and print
+	string word, word1;
+	while (file >> word && file1 >> word1) // take word and print
 	{
 		insert(root, word, i);
 		insert(root, word1, i + 1);
-		insert(root, word2, i + 2);
-		insert(root, word3, i + 3);
-		insert(root, word4, i + 4);
-		insert(root, word5, i + 5);
-		insert(root, word6, i + 6);
-		insert(root, word7, i + 7);
-		insert(root, word8, i + 8);
-		insert(root, word9, i + 9);
 	}
+
 	ptr.clear();
 	file.close();
 	file1.close();
-	file2.close();
-	file3.close();
-	file4.close();
-	file5.close();
-	file6.close();
-	file7.close();
-	file8.close();
-	file9.close();
-}
-
-void Trie::readStop(string ptr, Node*& root, int i)
-{
-	fstream file;
-	file.open(ptr); string word;
-	while (file >> word)
-		insert(root, word, i);
-	file.close();
 }
 
 void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
@@ -91,23 +69,17 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 	{
 		titleName = p.path().filename().string();
 		vt.push_back(titleName);
-		multi.push_back("data/" + titleName);
-		if (multi.size() == 10) {
+	}
+	for (int j = 0; j < vt.size(); j++) {
+		multi.push_back("data/" + vt.at(j));
+		if (multi.size() == 2) {
 			readWord(multi, root, i);
-			i = i + 10;
+			i = i + 2;
+		}
+		else if (multi.size() != 2 && vt.size() - j < 2) {
+			readStop(multi.at(0), root, i);
 		}
 	}
-}
-
-void Trie::deleteTrie(Node*& root)
-{
-	map<char, Node*>::iterator it;
-	if (root == NULL)
-		return;
-	for (it = root->mapkey.begin(); it != root->mapkey.end(); it++)
-		deleteTrie(it->second);
-	delete root;
-	root = NULL;
 }
 
 void Trie::removeStopWord(vector<string>& store, Node* root2)
@@ -132,6 +104,17 @@ void Trie::removeStopWord(vector<string>& store, Node* root2)
 	}
 }
 
+void Trie::deleteTrie(Node*& root)
+{
+	unordered_map<char, Node*>::iterator it;
+	if (root == NULL)
+		return;
+	for (it = root->mapkey.begin(); it != root->mapkey.end(); it++)
+		deleteTrie(it->second);
+	delete root;
+	root = NULL;
+}
+
 // similar to search function but this function also get the leaf node
 Node* Trie::getFile(Node* root, char* str)
 {
@@ -147,6 +130,294 @@ Node* Trie::getFile(Node* root, char* str)
 		str++;
 	}
 	return cur;
+}
+
+// excute every query
+void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
+{
+	string word, input = str, start = "", end = "", sim;
+	vector<int> common;
+	vector<string> store, minus;
+	stringstream iss(str);
+	char* str2 = new char[20];
+	int countN = 0, queryType, count;
+	bool qAND = false, qOR = false, qPrice = false, qHastag = false,
+		qIntitle = false, qExact = false, qMinus = false;
+	clock_t start1;
+	// QUERY FILETYPE
+	if (queryFileType(input))
+	{
+		cout << "QUERY FILETYPE" << endl << endl;
+		fstream f, res;
+		string type = "", file = "";
+		int count = 0, j = 0, check = 0;
+		for (int i = 9; i < input.length(); ++i)
+			type += input[i];
+		if (type[0] == ' ')
+			type.erase(0, 1);
+		if (type.empty())
+		{
+			cout << "Error!!! Please type in a type of file." << endl;
+			return;
+		}
+		clock_t start1 = clock();
+		f.open("file_name.txt", ios::in);
+		if (!f.is_open())
+			cout << "Can not load data." << endl << endl;
+		else
+		{
+			while (!f.eof())
+			{
+				getline(f, file);
+				if (file.empty())
+					break;
+				file.erase(0, 1);
+				file.pop_back();
+				for (int i = file.length() - type.length(); i < file.length(); ++i)
+				{
+					if (file[i] == type[j++])
+						++count;
+				}
+				j = 0;
+				if (count == type.length())
+				{
+					++check;
+					res.open("data/" + file, ios::in);
+					if (!res.is_open())
+						cout << "Can not load file." << endl << endl;
+					else
+					{
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
+						cout << "***" << file << ":";
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+						cout << endl << endl;
+						string data, ww;
+						stringstream getdata(data);
+						while (getdata >> ww) {
+							for (int k = 0; k <= ww.size(); k++)
+							{
+								if (ww[k] == '—') ww[k] == '-';
+								if (ww[k] == '“') ww[k] = '"';
+								if (ww[k] == '”') ww[k] = '"';
+								if (ww[k] == '’') ww[k] = '\'';
+								if (ww[k] == '‘') ww[k] = '\'';
+							}
+						}
+						getline(res, data);
+						cout << data << endl;
+						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+						cout << endl << "======================================"
+							<< "==============================================="
+							<< "==============================================="
+							<< endl << endl;
+					}
+					res.close();
+				}
+				count = 0;
+				if (check > 10)
+					break;
+			}
+			if (check == 0)
+				cout << "Error!!! Can not find this filetype." << endl << endl;
+		}
+		f.close();
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
+		return;
+	}
+	while (iss >> word)
+	{
+		lowerString(word);
+		store.push_back(word);
+	}
+	// QUERY INTITLE
+	if (queryIntitle(store.at(0)))
+	{
+		queryType = 5;
+		if (store.at(0).length() > 8)
+			store.at(0).erase(0, 8);
+		else /*store.at(0).length() == 8*/
+		{
+			if (store.size() == 1)
+			{
+				cout << "QUERY INTITLE" << endl << endl
+					<< "Error!!! Please type in a keyword." << endl << endl;
+				return;
+			}
+			else
+				store.erase(store.begin());
+		}
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// Query EXACT
+	else if (queryExact(store))
+	{
+		store.at(0).erase(store.at(0).begin());
+		store.at(store.size() - 1).pop_back();;
+		queryType = 6;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// Query RANGE
+	else if (queryRange(store, start, end, sim))
+	{
+		start1 = clock();
+		if (!store.empty()) store.push_back("demo");
+		for (int i = atoi(start.c_str()); i <= atoi(end.c_str()); i++)
+		{
+			countN = 0;
+			common.clear();
+			if (!store.empty())
+				store.pop_back();
+			store.push_back(sim + to_string(i));
+			queryType = 6;
+			getQueryAnd(root2, store, str2, common, countN, queryType);
+			count = 0;
+			for (int j = 0; j < common.size(); j++)
+			{
+				if (count < 1)
+					if (countN == store.size())
+						outPutResult("data/" + vt.at(common.at(j)), store, count, false, false);
+					else
+						break;
+			}
+		}
+		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
+		goto b;
+	}
+	// Query OR
+	else if (checkOnVector(store, "or"))
+	{
+		getQueryOr(root2, store, str2, common, countN);
+		queryType = 2;
+	}
+	// Query MINUS
+	else if (queryMinus(store, minus))
+	{
+		queryType = 7;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+		str2 = new char[20];
+		vector<int> common2;
+		getQueryOr(root2, minus, str2, common2, countN);
+		for (int i = 0; i < common.size(); i++) {
+			if (checkIntOnVector(common2, common.at(i)))
+			{
+				common.erase(common.begin() + i);
+				i--;
+			}
+		}
+	}
+	// QUERY PRICE
+	else if (queryPrice(store))
+	{
+		queryType = 3;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// QUERY HASTAG
+	else if (queryHastag(store))
+	{
+		queryType = 4;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	// Query AND
+	else
+	{
+		queryType = 1;
+		getQueryAnd(root2, store, str2, common, countN, queryType);
+	}
+	count = 0;
+	cout << endl;
+	start1 = clock();
+	for (int i = 0; i < common.size(); i++)
+	{
+		if (count < 10)
+		{
+			// Output for query and
+			if (queryType == 1)
+			{
+				if (!qAND)
+				{
+					cout << "QUERY AND" << endl << endl;
+					qAND = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+				else
+					goto a;
+			}
+			// Output for query or
+			else if (queryType == 2)
+			{
+				if (!qOR)
+				{
+					cout << "QUERY OR" << endl << endl;
+					qOR = true;
+				}
+				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			// Output for query price
+			else if (queryType == 3)
+			{
+				if (!qPrice)
+				{
+					cout << "QUERY PRICE" << endl << endl;
+					qPrice = true;
+				}
+				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			// Output for query hastag
+			else if (queryType == 4)
+			{
+				if (!qHastag)
+				{
+					cout << "QUERY HASTAG" << endl << endl;
+					qHastag = true;
+				}
+				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			// Output for query intitle
+			else if (queryType == 5)
+			{
+				if (!qIntitle)
+				{
+					cout << "QUERY INTITLE" << endl << endl;
+					qIntitle = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, false, true);
+				else
+					goto a;
+			}
+			// Output for query exact
+			else if (queryType == 6)
+			{
+				if (!qExact)
+				{
+					cout << "QUERY EXACT" << endl << endl;
+					qExact = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, true, false);
+			}
+			// Output for query minus
+			else if (queryType == 7)
+			{
+				if (!qMinus)
+				{
+					cout << "QUERY MINUS" << endl << endl;
+					qMinus = true;
+				}
+				if (countN == store.size())
+					outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
+			}
+			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+		}
+		else
+			break;
+	}
+a:
+	cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
+b:
+	delete[] str2;
 }
 
 // find commonvector
@@ -523,294 +794,6 @@ void Trie::checkPlus(vector<string>& input, Node* root2, vector<string>& result)
 			delete[] str2;
 		}
 	}
-}
-
-// excute every query
-void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
-{
-	string word, input = str, start = "", end = "", sim;
-	vector<int> common;
-	vector<string> store, minus;
-	stringstream iss(str);
-	char* str2 = new char[20];
-	int countN = 0, queryType, count;
-	bool qAND = false, qOR = false, qPrice = false, qHastag = false,
-		qIntitle = false, qExact = false, qMinus = false;
-	clock_t start1;
-	// QUERY FILETYPE
-	if (queryFileType(input))
-	{
-		cout << "QUERY FILETYPE" << endl << endl;
-		fstream f, res;
-		string type = "", file = "";
-		int count = 0, j = 0, check = 0;
-		for (int i = 9; i < input.length(); ++i)
-			type += input[i];
-		if (type[0] == ' ')
-			type.erase(0, 1);
-		if (type.empty())
-		{
-			cout << "Error!!! Please type in a type of file." << endl;
-			return;
-		}
-		clock_t start1 = clock();
-		f.open("file_name.txt", ios::in);
-		if (!f.is_open())
-			cout << "Can not load data." << endl << endl;
-		else
-		{
-			while (!f.eof())
-			{
-				getline(f, file);
-				if (file.empty())
-					break;
-				file.erase(0, 1);
-				file.pop_back();
-				for (int i = file.length() - type.length(); i < file.length(); ++i)
-				{
-					if (file[i] == type[j++])
-						++count;
-				}
-				j = 0;
-				if (count == type.length())
-				{
-					++check;
-					res.open("data/" + file, ios::in);
-					if (!res.is_open())
-						cout << "Can not load file." << endl << endl;
-					else
-					{
-						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
-						cout << "***" << file << ":";
-						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-						cout << endl << endl;
-						string data, ww;
-						stringstream getdata(data);
-						while (getdata >> ww) {
-							for (int k = 0; k <= ww.size(); k++)
-							{
-								if (ww[k] == '—') ww[k] == '-';
-								if (ww[k] == '“') ww[k] = '"';
-								if (ww[k] == '”') ww[k] = '"';
-								if (ww[k] == '’') ww[k] = '\'';
-								if (ww[k] == '‘') ww[k] = '\'';
-							}
-						}
-						getline(res, data);
-						cout << data << endl;
-						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-						cout << endl << "======================================"
-							<< "==============================================="
-							<< "==============================================="
-							<< endl << endl;
-					}
-					res.close();
-				}
-				count = 0;
-				if (check > 10)
-					break;
-			}
-			if (check == 0)
-				cout << "Error!!! Can not find this filetype." << endl << endl;
-		}
-		f.close();
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
-		return;
-	}
-	while (iss >> word)
-	{
-		lowerString(word);
-		store.push_back(word);
-	}
-	// QUERY INTITLE
-	if (queryIntitle(store.at(0)))
-	{
-		queryType = 5;
-		if (store.at(0).length() > 8)
-			store.at(0).erase(0, 8);
-		else /*store.at(0).length() == 8*/
-		{
-			if (store.size() == 1)
-			{
-				cout << "QUERY INTITLE" << endl << endl
-					<< "Error!!! Please type in a keyword." << endl << endl;
-				return;
-			}
-			else
-				store.erase(store.begin());
-		}
-		getQueryAnd(root2, store, str2, common, countN, queryType);
-	}
-	// Query EXACT
-	else if (queryExact(store))
-	{
-		store.at(0).erase(store.at(0).begin());
-		store.at(store.size() - 1).pop_back();;
-		queryType = 6;
-		getQueryAnd(root2, store, str2, common, countN, queryType);
-	}
-	// Query RANGE
-	else if (queryRange(store, start, end, sim))
-	{
-		start1 = clock();
-		if (!store.empty()) store.push_back("demo");
-		for (int i = atoi(start.c_str()); i <= atoi(end.c_str()); i++)
-		{
-			countN = 0;
-			common.clear();
-			if (!store.empty())
-				store.pop_back();
-			store.push_back(sim + to_string(i));
-			queryType = 6;
-			getQueryAnd(root2, store, str2, common, countN, queryType);
-			count = 0;
-			for (int j = 0; j < common.size(); j++)
-			{
-				if (count < 1)
-					if (countN == store.size())
-						outPutResult("data/" + vt.at(common.at(j)), store, count, false, false);
-					else
-						break;
-			}
-		}
-		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
-		goto b;
-	}
-	// Query OR
-	else if (checkOnVector(store, "or"))
-	{
-		getQueryOr(root2, store, str2, common, countN);
-		queryType = 2;
-	}
-	// Query MINUS
-	else if (queryMinus(store, minus))
-	{
-		queryType = 7;
-		getQueryAnd(root2, store, str2, common, countN, queryType);
-		str2 = new char[20];
-		vector<int> common2;
-		getQueryOr(root2, minus, str2, common2, countN);
-		for (int i = 0; i < common.size(); i++) {
-			if (checkIntOnVector(common2, common.at(i)))
-			{
-				common.erase(common.begin() + i);
-				i--;
-			}
-		}
-	}
-	// QUERY PRICE
-	else if (queryPrice(store))
-	{
-		queryType = 3;
-		getQueryAnd(root2, store, str2, common, countN, queryType);
-	}
-	// QUERY HASTAG
-	else if (queryHastag(store))
-	{
-		queryType = 4;
-		getQueryAnd(root2, store, str2, common, countN, queryType);
-	}
-	// Query AND
-	else
-	{
-		queryType = 1;
-		getQueryAnd(root2, store, str2, common, countN, queryType);
-	}
-	count = 0;
-	cout << endl;
-	start1 = clock();
-	for (int i = 0; i < common.size(); i++)
-	{
-		if (count < 10)
-		{
-			// Output for query and
-			if (queryType == 1)
-			{
-				if (!qAND)
-				{
-					cout << "QUERY AND" << endl << endl;
-					qAND = true;
-				}
-				if (countN == store.size())
-					outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
-				else
-					goto a;
-			}
-			// Output for query or
-			else if (queryType == 2)
-			{
-				if (!qOR)
-				{
-					cout << "QUERY OR" << endl << endl;
-					qOR = true;
-				}
-				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
-			}
-			// Output for query price
-			else if (queryType == 3)
-			{
-				if (!qPrice)
-				{
-					cout << "QUERY PRICE" << endl << endl;
-					qPrice = true;
-				}
-				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
-			}
-			// Output for query hastag
-			else if (queryType == 4)
-			{
-				if (!qHastag)
-				{
-					cout << "QUERY HASTAG" << endl << endl;
-					qHastag = true;
-				}
-				outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
-			}
-			// Output for query intitle
-			else if (queryType == 5)
-			{
-				if (!qIntitle)
-				{
-					cout << "QUERY INTITLE" << endl << endl;
-					qIntitle = true;
-				}
-				if (countN == store.size())
-					outPutResult("data/" + vt.at(common.at(i)), store, count, false, true);
-				else
-					goto a;
-			}
-			// Output for query exact
-			else if (queryType == 6)
-			{
-				if (!qExact)
-				{
-					cout << "QUERY EXACT" << endl << endl;
-					qExact = true;
-				}
-				if (countN == store.size())
-					outPutResult("data/" + vt.at(common.at(i)), store, count, true, false);
-			}
-			// Output for query minus
-			else if (queryType == 7)
-			{
-				if (!qMinus)
-				{
-					cout << "QUERY MINUS" << endl << endl;
-					qMinus = true;
-				}
-				if (countN == store.size())
-					outPutResult("data/" + vt.at(common.at(i)), store, count, false, false);
-			}
-			SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-		}
-		else
-			break;
-	}
-a:
-	cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
-b:
-	delete[] str2;
 }
 
 void title()
