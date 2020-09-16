@@ -577,8 +577,8 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 							if (ww[k] == '‘') ww[k] = '\'';
 						}
 					}
-					getline(res, data);
-					cout << data << endl;
+					getline(res, data, '.');
+					cout << data << "..." << endl;
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 					cout << endl << "======================================"
 						<< "==============================================="
