@@ -52,7 +52,11 @@ void Trie::readWord(vector<string>& ptr, Node*& root, int i)
 	string word, word1;
 	while (file >> word && file1 >> word1) // take word and print
 	{
-		insert(root, word, i);
+		if (word.back() == ',' || word.back() == '.' || word.back() == ':' || word.back() == '?' || word.back() == '\"')
+			word.pop_back();	
+		insert(root, word, i);							
+		if (word1.back() == ',' || word1.back() == '.' || word1.back() == ':' || word1.back() == '?' || word1.back() == '\"')
+			word1.pop_back();			
 		insert(root, word1, i + 1);
 	}
 
