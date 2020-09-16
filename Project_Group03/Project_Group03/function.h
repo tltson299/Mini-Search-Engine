@@ -33,6 +33,7 @@ public:
 class Trie
 {
 public:
+	// Build & Delete Tree
 	Node* root = nullptr;
 	~Trie()
 	{
@@ -43,10 +44,10 @@ public:
 	void readWord(vector<string>& ptr, Node*& root, int i);
 	void readStop(string ptr, Node*& root, int i);
 	void getFileName(Node*& root, char* str, vector<string>& vt);
-	void removeStopWord(vector<string>& store, Node* root2);
 	void deleteTrie(Node*& root);
+	// Remove Stopwords & Implement Query
+	void removeStopWord(vector<string>& store, Node* root2);
 	Node* getFile(Node* root, char* str);
-	void QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2);
 	void commonVector(vector<int> inputvt, vector<int>& common);
 	void ouputVector(vector<string> mys, string filename, bool& found, vector<string> highlight);
 	bool checkString(string input, string word);
@@ -64,6 +65,8 @@ public:
 	bool queryMinus(vector<string>& input, vector<string>& minus);
 	bool checkIntOnVector(vector<int>minus, int input);
 	void checkPlus(vector<string>& input, Node* root2, vector<string>& result);
+	// Main Function
+	void QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2);
 };
 
 // OTHER FUNCTIONS
