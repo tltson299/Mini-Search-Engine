@@ -71,15 +71,16 @@ void Trie::getFileName(Node*& root, char* str, vector<string>& vt)
 		titleName = p.path().filename().string();
 		vt.push_back(titleName);
 	}
-	for (int j = 0; j < vt.size(); j++) {
+	for (int j = 0; j < vt.size(); j++)
+	{
 		multi.push_back("data/" + vt.at(j));
-		if (multi.size() == 2) {
+		if (multi.size() == 2)
+		{
 			readWord(multi, root, i);
 			i = i + 2;
 		}
-		else if (multi.size() != 2 && vt.size() - j < 2) {
+		else if (multi.size() != 2 && vt.size() - j < 2)
 			readStop(multi.at(0), root, i);
-		}
 	}
 }
 
@@ -525,8 +526,8 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 	if (queryFileType(input))
 	{
 		cout << "QUERY FILETYPE" << endl << endl;
-		fstream f, res;
-		string type = "", file = "";
+		fstream res;
+		string type = "";
 		int count = 0, j = 0, check = 0;
 		for (int i = 9; i < input.length(); ++i)
 			type += input[i];
@@ -538,68 +539,56 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 			return;
 		}
 		clock_t start1 = clock();
-		f.open("file_name.txt", ios::in);
-		if (!f.is_open())
-			cout << "Can not load data." << endl << endl;
-		else
+		for (int i = 0; i < vt.size(); ++i)
 		{
-			while (!f.eof())
+			for (int k = vt.at(i).length() - type.length(); k < vt.at(i).length(); ++k)
 			{
-				getline(f, file);
-				if (file.empty())
-					break;
-				file.erase(0, 1);
-				file.pop_back();
-				for (int i = file.length() - type.length(); i < file.length(); ++i)
-				{
-					if (file[i] == type[j++])
-						++count;
-				}
-				j = 0;
-				if (count == type.length())
-				{
-					++check;
-					res.open("data/" + file, ios::in);
-					if (!res.is_open())
-						--check;
-						// cout << "Can not load file." << endl << endl;
-					else
-					{
-						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
-						cout << "***" << file << ":";
-						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
-						cout << endl << endl;
-						string data, ww;
-						stringstream getdata(data);
-						while (getdata >> ww)
-						{
-							for (int k = 0; k <= ww.size(); k++)
-							{
-								if (ww[k] == '—') ww[k] == '-';
-								if (ww[k] == '“') ww[k] = '"';
-								if (ww[k] == '”') ww[k] = '"';
-								if (ww[k] == '’') ww[k] = '\'';
-								if (ww[k] == '‘') ww[k] = '\'';
-							}
-						}
-						getline(res, data);
-						cout << data << endl;
-						SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-						cout << endl << "======================================"
-							<< "==============================================="
-							<< "==============================================="
-							<< endl << endl;
-					}
-					res.close();
-				}
-				count = 0;
-				if (check >= 10)
-					break;
+				if (vt.at(i)[k] == type[j++])
+					++count;
 			}
-			if (check == 0)
-				cout << "Error!!! Can not find this filetype." << endl << endl;
+			j = 0;
+			if (count == type.length())
+			{
+				++check;
+				res.open("data/" + vt.at(i), ios::in);
+				if (!res.is_open())
+					--check;
+				// cout << "Can not load file." << endl << endl;
+				else
+				{
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 138);
+					cout << "***" << vt.at(i) << ":";
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
+					cout << endl << endl;
+					string data, ww;
+					stringstream getdata(data);
+					while (getdata >> ww)
+					{
+						for (int k = 0; k <= ww.size(); k++)
+						{
+							if (ww[k] == '—') ww[k] == '-';
+							if (ww[k] == '“') ww[k] = '"';
+							if (ww[k] == '”') ww[k] = '"';
+							if (ww[k] == '’') ww[k] = '\'';
+							if (ww[k] == '‘') ww[k] = '\'';
+						}
+					}
+					getline(res, data);
+					cout << data << endl;
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
+					cout << endl << "======================================"
+						<< "==============================================="
+						<< "==============================================="
+						<< endl << endl;
+				}
+				res.close();
+			}
+			count = 0;
+			if (check >= 10)
+				break;
 		}
-		f.close();
+		if (check == 0)
+			cout << "Error!!! Can not find this filetype." << endl << endl;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
 		return;
