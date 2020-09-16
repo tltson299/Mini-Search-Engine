@@ -1,0 +1,57 @@
+PATERSON, N.J. — Some New Jersey students got a lesson in the pitfalls of virtual learning recently when their online classes were interrupted by obscenities, pornography and threats against teachers.
+
+But the Paterson schools aren’t alone in dealing with electronic intrusions in the age of virtual learning. Similar incidents have been reported in districts across the country, from California, Miami and Ohio to Lumberton, New Jersey, which was bombarded with pornographic images and racist language during Zoom conferences in April.
+
+Problems with online security and privacy — from student pranks to ransomware attacks — are expected to only get worse as schools across the country shift to full- or part-time virtual learning because of the coronavirus pandemic, experts warn.
+
+“Zoom bombing, cyberbullying, phishing – you name it. It has increased astronomically. Everybody needs to be really mindful about security right now,” said Kutub Thakur, an assistant professor and director of the Cyber Defense & Security Program at New Jersey City University. 
+
+“Because everything is online, hackers are more active. They target school systems and students who are young and they don’t really have any boundaries.”
+
+There's a bigger demand for remote learning.
+In the spring, disruptions by intruders who shared hate-filled and pornographic content became so common that a new term was coined for the cyber-invasions: “Zoom bombing,” named for the popular videoconferencing platform. Zoom and other technology companies responded by unveiling security updates including encryption and new privacy controls.
+
+In Paterson, this month's intrusions came on Google Meet, another platform used widely by schools. At least 20 of the city’s roughly 50 schools were affected by the onslaught of inappropriate content, according to educators.
+
+
+On Friday, the school district identified between five and 10 Paterson students who officials say may have been responsible. Officials said the culprits apparently got access to classes they were not enrolled in because students shared links and codes for the Google Meet sessions.
+
+A class of 100?:COVID-19 plans overwhelming some teachers with huge virtual classes
+
+“If you have a public meeting where a password and link can be shared, that can cause problems,” said Jaideep Vaidya, director of the Rutgers Institute for Data Science, Learning, and Analytics. “People can log in from different accounts. They can share it with friends who are not even in school.”
+
+
+The most important defense measure schools can take, he said, was to continuously update software applications and use security features that control when people get admitted, who gets admitted, and what they are allowed to do.
+
+Schools can make meetings private, open them only to invited participants and ask students to log in with a unique ID and password. The meeting host can also use a “waiting room” where they admit students individually into an online class.
+
+Some apps allow the host to block the transferring of files, mute microphones and restrict people from showing their screens.
+
+Given the sheer number of people online, more problems can be expected. And it’s not just salacious content that’s a concern.
+
+Child studying math over mobile phone using internet connection and smart application during coronavirus stay-at-home learning.
+Vulnerabilities of online learning
+Schools are vulnerable to phishing, where scammers use fraudulent emails to access personal information or install malware. That can lead to ransomware attempts, when scammers get access to a system and block a school from accessing data and files until a ransom is paid.
+
+In New Jersey, ransomware attacks were reported in Livingston and in Cherry Hill last fall, while Somerset Hills was hit this month. Hospitals and other businesses also have been targeted.
+
+For criminals, the schemes targeting schools may look even more attractive now, Vaidya said, given how dependent they are on virtual learning. That could drive up ransom demands or make districts more likely to pay promptly, he said. 
+
+Thakur, of New Jersey City University, said schools must ensure anti-virus software and firewalls are up to date and that security devices are checked on a regular basis. Schools also should back up all information and files in case of a ransomware attack.
+
+Cybersecurity problems result from human action, so schools must educate staff, students and parents to prevent them, Thakur stressed.
+
+COVID-19 and schools:Summer parties, teacher shortages push suburban schools to scrap reopening plans
+
+“Invest in online security education and how you protect yourself," he said. "In every class, there should be some kind of security awareness training and some sort of security guidelines."
+
+Another tip: Schools should provide a disclaimer or warning that information about online classes and activity is restricted and cannot be shared outside invited participants.
+
+In Paterson, officials are trying to get that message across by disciplining the suspects who disrupted learning in nearly half the city’s schools.
+
+Paterson Superintendent Eileen Shafer said the district is in the process of confirming the students’ roles in the disruptions and may impose suspensions by Monday.
+
+Eileen Shafer, superintendent of the Paterson school district, holds a press conference at the Panther Academy announcing new tech grants that will be coming to Paterson schools on Tuesday, Nov. 27, 2018.
+Shafer also said the Passaic County Prosecutor’s Office would be notified about students who showed pornographic images in the virtual classes and the Paterson Police Department alerted about those who made threats.
+
+“There’s zero tolerance for this,” Shafer said in an interview. “We wouldn’t tolerate it in a classroom in a physical building and we won’t tolerate it online.”

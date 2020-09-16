@@ -1,0 +1,38 @@
+Fields
+Computer science is no more about computers than astronomy is about telescopes.
+
+—?Edsger Dijkstra
+Further information: Outline of computer science
+As a discipline, computer science spans a range of topics from theoretical studies of algorithms and the limits of computation to the practical issues of implementing computing systems in hardware and software.[57][58] CSAB, formerly called Computing Sciences Accreditation Board—which is made up of representatives of the Association for Computing Machinery (ACM), and the IEEE Computer Society (IEEE CS)[59]—identifies four areas that it considers crucial to the discipline of computer science: theory of computation, algorithms and data structures, programming methodology and languages, and computer elements and architecture. In addition to these four areas, CSAB also identifies fields such as software engineering, artificial intelligence, computer networking and communication, database systems, parallel computation, distributed computation, human–computer interaction, computer graphics, operating systems, and numerical and symbolic computation as being important areas of computer science.[57]
+
+Theoretical computer science
+Main article: Theoretical computer science
+Theoretical Computer Science is mathematical and abstract in spirit, but it derives its motivation from the practical and everyday computation. Its aim is to understand the nature of computation and, as a consequence of this understanding, provide more efficient methodologies. All studies related to mathematical, logic and formal concepts and methods could be considered as theoretical computer science, provided that the motivation is clearly drawn from the field of computing.
+
+Theory of computation
+Main article: Theory of computation
+According to Peter Denning, the fundamental question underlying computer science is, "What can be automated?"[5] Theory of computation is focused on answering fundamental questions about what can be computed and what amount of resources are required to perform those computations. In an effort to answer the first question, computability theory examines which computational problems are solvable on various theoretical models of computation. The second question is addressed by computational complexity theory, which studies the time and space costs associated with different approaches to solving a multitude of computational problems.
+
+The famous P = NP? problem, one of the Millennium Prize Problems,[60] is an open problem in the theory of computation.
+
+DFAexample.svg	{\displaystyle M=\{X:X\not \in X\}}{\displaystyle M=\{X:X\not \in X\}}	Complexity classes.svg
+Automata theory	Computability theory	Computational complexity theory
+GNITIRW-TERCES	Blochsphere.svg	XNOR ANSI Labelled.svg
+Cryptography	Quantum computing theory	Digital circuit theory
+Information and coding theory
+Main articles: Information theory and Coding theory
+Information theory, closely related to probability and statistics, is related to the quantification of information. This was developed by Claude Shannon to find fundamental limits on signal processing operations such as compressing data and on reliably storing and communicating data.[61] Coding theory is the study of the properties of codes (systems for converting information from one form to another) and their fitness for a specific application. Codes are used for data compression, cryptography, error detection and correction, and more recently also for network coding. Codes are studied for the purpose of designing efficient and reliable data transmission methods. [62]
+
+Comparison of JPEG and PNG.png	Binary symmetric channel.svg	H0 h1 fehler.jpg
+Source coding	Channel capacity	Signal detection theory
+gcc -Os foo.c	Exponential cdf.svg	{\displaystyle {\hat {\theta }}={\underset {\theta }{\operatorname {argmax} }}\;P(x|\theta )}{\displaystyle {\hat {\theta }}={\underset {\theta }{\operatorname {argmax} }}\;P(x|\theta )}
+Algorithmic information theory	Information geometry	Estimation theory
+Data structures and algorithms
+Main articles: Data structure and Algorithm
+Data structures and algorithms are the studies of commonly used computational methods and their computational efficiency.
+
+O(n2)	Sorting quicksort anim.gif	Singly linked list.png	TSP Deutschland 3.png	SimplexRangeSearching.svg
+Analysis of algorithms	Algorithms	Data structures	Combinatorial optimization	Computational geometry
+Programming language theory
+Main article: Programming language theory
+Programming language theory is a branch of computer science that deals with the design, implementation, analysis, characterization, and classification of programming languages and their individual features. It falls within the discipline of computer science, both depending on and affecting mathematics, software engineering, and linguistics. It is an active research area, with numerous dedicated academic journals.

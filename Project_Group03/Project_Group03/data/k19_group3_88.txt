@@ -1,0 +1,33 @@
+Mathematics (from Greek: µ???µa, máthema, 'knowledge, study, learning') includes the study of such topics as quantity (number theory),[1] structure (algebra),[2] space (geometry),[1] and change (mathematical analysis).[3][4][5] It has no generally accepted definition.[6][7]
+
+Mathematicians seek and use patterns[8][9] to formulate new conjectures; they resolve the truth or falsity of such by mathematical proof. When mathematical structures are good models of real phenomena, mathematical reasoning can be used to provide insight or predictions about nature. Through the use of abstraction and logic, mathematics developed from counting, calculation, measurement, and the systematic study of the shapes and motions of physical objects. Practical mathematics has been a human activity from as far back as written records exist. The research required to solve mathematical problems can take years or even centuries of sustained inquiry.
+
+Rigorous arguments first appeared in Greek mathematics, most notably in Euclid's Elements.[10] Since the pioneering work of Giuseppe Peano (1858–1932), David Hilbert (1862–1943), and others on axiomatic systems in the late 19th century, it has become customary to view mathematical research as establishing truth by rigorous deduction from appropriately chosen axioms and definitions. Mathematics developed at a relatively slow pace until the Renaissance, when mathematical innovations interacting with new scientific discoveries led to a rapid increase in the rate of mathematical discovery that has continued to the present day.[11]
+
+Mathematics is essential in many fields, including natural science, engineering, medicine, finance, and the social sciences. Applied mathematics has led to entirely new mathematical disciplines, such as statistics and game theory. Mathematicians engage in pure mathematics (mathematics for its own sake) without having any application in mind, but practical applications for what began as pure mathematics are often discovered later.[12][13]
+
+
+Contents
+1	History
+1.1	Etymology
+2	Definitions of mathematics
+2.1	Three leading types
+2.2	Mathematics as science
+3	Inspiration, pure and applied mathematics, and aesthetics
+4	Notation, language, and rigor
+5	Fields of mathematics
+5.1	Foundations and philosophy
+5.2	Pure mathematics
+5.3	Applied mathematics
+6	Mathematical awards
+7	See also
+8	Notes
+9	References
+10	Bibliography
+11	Further reading
+History
+Main article: History of mathematics
+The history of mathematics can be seen as an ever-increasing series of abstractions. The first abstraction, which is shared by many animals,[14] was probably that of numbers: the realization that a collection of two apples and a collection of two oranges (for example) have something in common, namely quantity of their members.
+
+As evidenced by tallies found on bone, in addition to recognizing how to count physical objects, prehistoric peoples may have also recognized how to count abstract quantities, like time—days, seasons, or years.[15][16]
+Evidence for more complex mathematics does not appear until around 3000 BC, when the Babylonians and Egyptians began using arithmetic, algebra and geometry for taxation and other financial calculations, for building and construction, and for astronomy.[17] The most ancient mathematical texts from Mesopotamia and Egypt are from 2000–1800 BC.[18] Many early texts mention Pythagorean triples and so, by inference, the Pythagorean theorem seems to be the most ancient and widespread mathematical development after basic arithmetic and geometry.[19] It is in Babylonian mathematics that elementary arithmetic (addition, subtraction, multiplication and division) first appear in the archaeological record. The Babylonians also possessed a place-value system, and used a sexagesimal numeral system [19] which is still in use today for measuring angles and time.[20]
