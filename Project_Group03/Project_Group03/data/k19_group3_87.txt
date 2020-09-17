@@ -1,3 +1,5 @@
+#handsome - handsomely paid job (IT).
+
 See also: Digital physics
 Alan Turing's insight: there are only five actions that a computer has to perform in order to do "anything".
 Every algorithm can be expressed in a language for a computer consisting of only five basic instructions:[72]
@@ -7,7 +9,7 @@ read symbol at current location;
 print 0 at current location;
 print 1 at current location.
 See also: Turing machine
-Corrado Böhm and Giuseppe Jacopini's insight: there are only three ways of combining these actions (into more complex ones) that are needed in order for a computer to do "anything".[73]
+Corrado Bohm and Giuseppe Jacopini's insight: there are only three ways of combining these actions (into more complex ones) that are needed in order for a computer to do "anything".[73]
 Only three rules are needed to combine any set of basic instructions into more complex ones:
 sequence: first do this, then do that;
 selection: IF such-and-such is the case, THEN do this, ELSE do that;
@@ -21,7 +23,7 @@ Programming languages can be used to accomplish different tasks in different way
 Functional programming, a style of building the structure and elements of computer programs that treats computation as the evaluation of mathematical functions and avoids state and mutable data. It is a declarative programming paradigm, which means programming is done with expressions or declarations instead of statements.[74]
 Imperative programming, a programming paradigm that uses statements that change a program's state.[75] In much the same way that the imperative mood in natural languages expresses commands, an imperative program consists of commands for the computer to perform. Imperative programming focuses on describing how a program operates.
 Object-oriented programming, a programming paradigm based on the concept of "objects", which may contain data, in the form of fields, often known as attributes; and code, in the form of procedures, often known as methods. A feature of objects is that an object's procedures can access and often modify the data fields of the object with which they are associated. Thus object-oriented computer programs are made out of objects that interact with one another.[76]
-Many languages offer support for multiple paradigms, making the distinction more a matter of style than of technical capabilities.[77]
+Many languages offer support for multiple paradigms, making the distinction more a matter of style than of technical capabilities.
 
 Academia
 Further information: List of computer science conferences and Category:Computer science journals
@@ -31,6 +33,6 @@ Education
 Main article: Computer science education
 Computer Science, known by its near synonyms, Computing, Computer Studies, Information Technology (IT) and Information and Computing Technology (ICT), has been taught in UK schools since the days of batch processing, mark sensitive cards and paper tape but usually to a select few students.[81] In 1981, the BBC produced a micro-computer and classroom network and Computer Studies became common for GCE O level students (11–16-year-old), and Computer Science to A level students. Its importance was recognised, and it became a compulsory part of the National Curriculum, for Key Stage 3 & 4. In September 2014 it became an entitlement for all pupils over the age of 4.[82]
 
-In the US, with 14,000 school districts deciding the curriculum, provision was fractured.[83] According to a 2010 report by the Association for Computing Machinery (ACM) and Computer Science Teachers Association (CSTA), only 14 out of 50 states have adopted significant education standards for high school computer science.[84]
+In the US, with 14,000 school districts deciding the curriculum, provision was fractured.[83] According to a 2010 report by the Association for Computing Machinery (ACM) and Computer Science Teachers Association (CSTA), only 14 out of 50 states have adopted significant education standards for high school computer science.
 
-Israel, New Zealand, and South Korea have included computer science in their national secondary education curricula,[85][86] and several others are following.[87]
+Israel, New Zealand, and South Korea have included computer science in their national secondary education curricula,[85][86] and several others are following.
