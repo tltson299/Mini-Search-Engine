@@ -32,8 +32,8 @@ int main()
 	cout << "1. AND                                      6. FILETYPE(example: filetype: txt)" << endl;
 	cout << "2. OR                                       7. INTITLE(example: intitle: beer)" << endl;
 	cout << "3. PLUS (put + before the stopword)         8. EXACT(example: \"star wars\")" << endl;
-	cout << "4. PRICE (example: camera $400)             9. RANGE(example: camera $100..$500)" << endl;
-	cout << "5. HASTAG(example: #MileyCyrus)            10. MINUS(example: New -York)" << endl << endl;
+	cout << "4. PRICE (example: camera $500)             9. RANGE(example: camera $100..$500)" << endl;
+	cout << "5. HASTAG(example: #handsome)               10. MINUS(example: New -York)" << endl << endl;
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 	cout << "*** HISTORY SEARCH: " << endl << endl;
 	cout << "*** Please enter keyword: ";
@@ -60,8 +60,8 @@ int main()
 		cout << "  1. AND                                      6. FILETYPE(example: filetype: txt)" << endl;
 		cout << "  2. OR                                       7. INTITLE(example: intitle: beer)" << endl;
 		cout << "  3. PLUS (put + before the stopword)         8. EXACT(example: \"star wars\") " << endl;
-		cout << "  4. PRICE (example: camera $400)             9. RANGE(example: camera $100..$500)" << endl;
-		cout << "  5. HASTAG(example: #MileyCyrus)            10. MINUS(example: New -York)" << endl << endl;
+		cout << "  4. PRICE (example: camera $500)             9. RANGE(example: camera $100..$500)" << endl;
+		cout << "  5. HASTAG(example: #handsome)               10. MINUS(example: New -York)" << endl << endl;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
 		cout << "*** HISTORY SEARCH: " << endl;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 11);
