@@ -1,7 +1,7 @@
 #ifndef _FUNCTION_H_
 #define _FUNCTION_H_
 #define _CRT_SECURE_NO_WARNINGS
-
+#include <chrono>
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -19,7 +19,7 @@
 #include <thread>
 using namespace std;
 using namespace std::filesystem;
-
+using namespace std::chrono;
 // NODE
 class Node
 {

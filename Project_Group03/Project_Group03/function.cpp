@@ -49,12 +49,16 @@ void Trie::readWord(vector<string>& ptr, Node*& root, int i)
 	fstream file, file1;
 	file.open(ptr.at(0));
 	file1.open(ptr.at(1));
+	std::string s((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+	std::string s1((std::istreambuf_iterator<char>(file1)), std::istreambuf_iterator<char>());
+	stringstream iss(s);
+	stringstream iss1(s1);
 	string word, word1;
-	while (file >> word && file1 >> word1) // take word and print
+	while (iss >> word && iss1 >> word1) // take word and print
 	{
 		if (word.back() == ',' || word.back() == '.' || word.back() == ':' || word.back() == '?' || word.back() == '\"')
 			word.pop_back();	
-		insert(root, word, i);							
+		insert(root, word, i);		
 		if (word1.back() == ',' || word1.back() == '.' || word1.back() == ':' || word1.back() == '?' || word1.back() == '\"')
 			word1.pop_back();			
 		insert(root, word1, i + 1);
@@ -525,7 +529,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 	int countN = 0, queryType, count;
 	bool qAND = false, qOR = false, qPrice = false, qHastag = false,
 		qIntitle = false, qExact = false, qMinus = false;
-	clock_t start1;
+	auto start1 = high_resolution_clock::now();
 	// QUERY FILETYPE
 	if (queryFileType(input))
 	{
@@ -542,7 +546,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 			cout << "Error!!! Please type in a type of file." << endl;
 			return;
 		}
-		clock_t start1 = clock();
+		auto start2 = high_resolution_clock::now();
 		for (int i = 0; i < vt.size(); ++i)
 		{
 			for (int k = vt.at(i).length() - type.length(); k < vt.at(i).length(); ++k)
@@ -594,7 +598,10 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 		if (check == 0)
 			cout << "Error!!! Can not find this filetype." << endl << endl;
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
+		auto stop2 = high_resolution_clock::now();
+		auto duration = duration_cast<milliseconds>(stop2 - start2);
+		cout << "Running time: "
+			<< duration.count() << " ms" << endl;
 		return;
 	}
 	while (iss >> word)
@@ -632,7 +639,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 	// QUERY RANGE
 	else if (queryRange(store, start, end, sim))
 	{
-		start1 = clock();
+		auto start3 = high_resolution_clock::now();
 		if (!store.empty()) store.push_back("demo");
 		for (int i = atoi(start.c_str()); i <= atoi(end.c_str()); i++)
 		{
@@ -653,8 +660,10 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 						break;
 			}
 		}
-		cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
-		goto b;
+		auto stop3 = high_resolution_clock::now();
+		auto duration = duration_cast<milliseconds>(stop3 - start3);
+		cout << "Running time: "
+			<< duration.count() << " ms" << endl;
 	}
 	// QUERY OR
 	else if (checkOnVector(store, "or"))
@@ -698,7 +707,7 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 	}
 	count = 0;
 	cout << endl;
-	start1 = clock();
+	
 	for (int i = 0; i < common.size(); i++)
 	{
 		if (count < 10)
@@ -787,7 +796,10 @@ void Trie::QueryOperator(Node* root, char* str, vector<string>& vt, Node* root2)
 			break;
 	}
 a:
-	cout << "=> Running time: " << (double)(clock() - start1) / CLOCKS_PER_SEC << endl;
+	auto stop1 = high_resolution_clock::now();
+	auto duration = duration_cast<milliseconds>(stop1 - start1);
+	cout << "Running time: "
+		<< duration.count() << " ms" << endl;
 b:
 	delete[] str2;
 }

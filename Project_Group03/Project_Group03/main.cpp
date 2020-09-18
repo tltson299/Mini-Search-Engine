@@ -7,7 +7,8 @@ int main()
 	fontSize(cfi, 0, 23);
 	// system("Color 0A"); // change background color
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 10);
-
+	std::ios::sync_with_stdio(false);
+	cin.tie(NULL);
 	// INITIALIZE VARIABLES
 	Trie trie, stopword;		// tree
 	vector<string> history;		// store history search
@@ -16,14 +17,17 @@ int main()
 	char* str1 = new char[50];	// store words temporarily
 	char* str2 = new char[50];	// store words temporarily
 	char* input = new char[50]; // input from user
-	clock_t start = clock();	// time complexity
+	auto start = high_resolution_clock::now(); 	// time complexity
 	title(); // print title
 
 	// LOAD DATA & STOPWORDS
 	cout << "Loading..." << endl;
 	trie.getFileName(trie.root, str1, vt1);
 	stopword.readStop("stopwords.txt", stopword.root, 0);
-	cout << "Loading time: " << (double)(clock() - start) / CLOCKS_PER_SEC << endl << endl;
+	auto stop = high_resolution_clock::now();
+	auto duration = duration_cast<milliseconds>(stop - start);
+	cout << "Loading time: "
+		<< duration.count() << " ms" << endl;
 
 	// SEARCH
 	cout << "*** Type \"exit\" to exit the program (Want to search for \"exit\"? Enter + type in \"exit\")" << endl << endl;
