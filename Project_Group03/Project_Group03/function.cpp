@@ -45,16 +45,13 @@ void Trie::readStop(string ptr, Node*& root, int i)
 
 void Trie::readWord(vector<string>& ptr, Node*& root, int i)
 {
-	vector<string> name;
 	fstream file, file1;
 	file.open(ptr.at(0));
 	file1.open(ptr.at(1));
-	std::string s((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-	std::string s1((std::istreambuf_iterator<char>(file1)), std::istreambuf_iterator<char>());
-	stringstream iss(s);
-	stringstream iss1(s1);
 	string word, word1;
-	while (iss >> word && iss1 >> word1) // take word and print
+	//cout << ptr.at(0) << endl;
+	//cout << ptr.at(1) << endl;
+	while (file >> word && file1 >> word1) // take word and print
 	{
 		if (word.back() == ',' || word.back() == '.' || word.back() == ':' || word.back() == '?' || word.back() == '\"')
 			word.pop_back();	
