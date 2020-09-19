@@ -17,8 +17,8 @@ int main()
 	char* str1 = new char[50];	// store words temporarily
 	char* str2 = new char[50];	// store words temporarily
 	char* input = new char[50]; // input from user
-	auto start = high_resolution_clock::now(); 	// time complexity
 	title(); // print title
+	auto start = high_resolution_clock::now(); 	// time complexity
 
 	// LOAD DATA & STOPWORDS
 	cout << "Loading..." << endl;
